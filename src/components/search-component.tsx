@@ -1,23 +1,23 @@
-import { useState } from "react"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardFooter } from "@/components/ui/card"
-import { BathIcon, BedIcon, ChevronDownIcon, DollarSignIcon, JapaneseYen, RulerIcon } from "lucide-react"
-import { Button2 } from "./ui/button2"
-import CustomButton from "./customButton"
-import { SearchBar } from "./search-bar"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "./ui/dropdown-menu"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select"
-import { Tabs, TabsList, TabsTrigger } from "./ui/tabs"
+import { useState } from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { BathIcon, BedIcon, ChevronDownIcon, DollarSignIcon, JapaneseYen, RulerIcon } from "lucide-react";
+import { Button2 } from "./ui/button2";
+import CustomButton from "./customButton";
+import { SearchBar } from "./search-bar";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
 
 export function SearchComponent() {
-  const [searchInput, setSearchInput] = useState("")
-  const [apartments, setApartments] = useState([])
-  const [type, setType] = useState("buy")
-  const [minPrice, setMinPrice] = useState(0)
-  const [maxPrice, setMaxPrice] = useState(60000000)
-  const [rooms, setRooms] = useState("3 комн")
+  const [searchInput, setSearchInput] = useState("");
+  const [apartments, setApartments] = useState([]);
+  const [type, setType] = useState("buy");
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(100000000);
+  const [rooms, setRooms] = useState("1-4 комн.");
 
   const handleSearch = async () => {
     const response = await fetch("http://localhost:3838/api/v1/apartments/lc/reccomendation", {
@@ -32,36 +32,65 @@ export function SearchComponent() {
         maxPrice: maxPrice,
         rooms: rooms,
       }),
-    })
+    });
 
     if (response.ok) {
-      const fetchedApartments = await response.json()
-      setApartments(fetchedApartments)
+      const recommendations = await response.json();
+      const detailedApartments = await Promise.all(
+        recommendations.map(async ({ link, reason }) => {
+          const detailResponse = await fetch("http://localhost:3838/api/v1/apartments/find/link", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ link }),
+          });
+
+          if (detailResponse.ok) {
+            const apartmentDetails = await detailResponse.json();
+            return { ...apartmentDetails, reason };
+          } else {
+            console.error(`Failed to fetch details for link: ${link}`);
+            return null;
+          }
+        })
+      );
+
+      setApartments(detailedApartments.filter(apartment => apartment !== null));
     } else {
-      console.error("Failed to fetch apartments")
+      console.error("Failed to fetch apartment recommendations");
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#6640ac] to-[#6640ac] text-[#ffffff]">
       <main>
-        <section className="container mx-auto py-28 px-4 md:px-6 flex flex-col items-center justify-center gap-8">
+      <section 
+      className="w-full flex flex-col items-center justify-center gap-8"
+      style={{ 
+        backgroundImage: 'url(https://cdn.pixabay.com/photo/2017/08/06/18/01/city-2594707_1280.jpg)', 
+        backgroundSize: 'cover', 
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        // backgroundAttachment: 'fixed'
+      }}
+    >
           <div className="w-full max-w-7xl mx-auto p-4">
-            <div className="text-center mb-4">
+            <div className="text-left mb-4 mt-20">
               <h1 className="text-3xl font-bold">Найдите первым выгодную недвижимость в Алматы</h1>
             </div>
-            <div className="bg-white shadow-md rounded-xl">
+            <div className="bg-white">
               <Tabs defaultValue="buy">
-                <TabsList className="flex space-x-2">
+                <TabsList className="flex space-x-2  rounded-t-[16px] rounded-b-[0px]" style={{ backgroundColor: 'rgba(79, 79, 79, 0.8)' }}>
                   <TabsTrigger value="buy" onClick={() => setType("buy")}>Купить</TabsTrigger>
                   <TabsTrigger value="rent" onClick={() => setType("rent")}>Снять</TabsTrigger>
                   <TabsTrigger value="daily" onClick={() => setType("daily")}>Посуточно</TabsTrigger>
                 </TabsList>
               </Tabs>
-              <div className="p-4">
+              <div className="p-4 bg-[#333333] rounded-b-[16px] py-6  px-4">
                 <div className="flex flex-wrap gap-4">
                   <Select onValueChange={value => setType(value)}>
-                    <SelectTrigger className="w-full sm:w-auto">
+                    <SelectTrigger className="w-full sm:w-auto border-[0px]">
                       <SelectValue placeholder="Квартиру" />
                     </SelectTrigger>
                     <SelectContent>
@@ -69,7 +98,7 @@ export function SearchComponent() {
                     </SelectContent>
                   </Select>
                   <Select onValueChange={value => setRooms(value)}>
-                    <SelectTrigger className="w-full sm:w-auto">
+                    <SelectTrigger className="w-full sm:w-auto border-[0px]">
                       <SelectValue placeholder="1-4 комн." />
                     </SelectTrigger>
                     <SelectContent>
@@ -81,7 +110,7 @@ export function SearchComponent() {
                   </Select>
                   <DropdownMenu>
                     <DropdownMenuTrigger className="w-full sm:w-auto">
-                      <div className="flex items-center justify-between">
+                      <div className="flex items-center justify-between flex h-10 w-full items-center justify-between rounded-md border-[0px] border-[#CCCCCC] bg-white px-3 py-2 text-sm ring-offset-[#FFFFFF] placeholder:text-[#CCCCCC] focus:outline-none focus:ring-2 focus:ring-[#7D40E7] focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1">
                         <span>Цена</span>
                         <ChevronDownIcon className="h-4 w-4" />
                       </div>
@@ -109,8 +138,8 @@ export function SearchComponent() {
                   </DropdownMenu>
                   <Input
                     type="text"
-                    placeholder="Город, улица, квартиры для большой семьи"
-                    className="w-full flex-1"
+                    placeholder="Улица, квартиры для большой семьи, со стиральной машиной"
+                    className="w-full flex-1 border-[0px] border-l-[1px] rounded-[0px] "
                     value={searchInput}
                     onChange={e => setSearchInput(e.target.value)}
                   />
@@ -118,7 +147,7 @@ export function SearchComponent() {
               </div>
             </div>
             <div className="text-right mb-4 p-4">
-              <Button onClick={handleSearch} className="px-4 py-2 w-full sm:w-auto mx-2 bg-[#ff851a] hover:bg-[#ce792e]">
+              <Button onClick={handleSearch} className="px-8 py-4 w-full sm:w-auto mx-2 text-[15px] bg-[#0468ff] hover:bg-[#ce792e]">
                 Найти
               </Button>
             </div>
@@ -135,7 +164,7 @@ export function SearchComponent() {
             <Card key={apartment.link} className="w-full border-0 border-t-[0.5px] border-b-[0.5px] mx-auto max-w-5xl grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-6 p-6 sm:p-8 md:p-10 rounded-xl">
               <div className="relative overflow-hidden rounded-lg" style={{ height: '200px' }}>
                 <img
-                  src="/placeholder.svg"
+                  src="{apartment.photos[0]}"
                   alt="Property Image"
                   className="w-full h-full object-cover"
                 />
@@ -143,7 +172,7 @@ export function SearchComponent() {
               <div className="grid gap-4">
                 <div className="grid gap-4">
                   <div>
-                    <h2 className="text-xl font-bold text-[#ff851a] mb-4">{apartment.title}</h2>
+                    <h2 className="text-xl font-bold text-[#ff851a] mb-4">{apartment.floor}</h2>
                     <p className="text-[#ffffff] text-sm mb-4">
                       <span>{apartment.location}</span>
                     </p>
@@ -170,5 +199,5 @@ export function SearchComponent() {
         </section>
       </main>
     </div>
-  )
+  );
 }

@@ -72,9 +72,80 @@ export function HomeComponent() {
             </p>
           </div>
         </section>
+        <section className="w-full py-12 md:py-24 lg:py-32">
+      <div className="container grid items-center justify-center gap-8 px-4 text-center md:px-6 lg:gap-12 mx-auto mb-10">
+        <div className="space-y-4">
+          <img
+            src="https://nf-spotify-hw.s3.eu-north-1.amazonaws.com/img/warmhome.png"
+            width={180}
+            height={90}
+            alt="homespark logo"
+            className="mx-auto aspect-[2/1] overflow-hidden rounded-lg object-contain object-center"
+          />
+          <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+            Доверенные компании, откуда мы берем информацию о квартирах.
+          </p>
+        </div>
+        <div className="grid w-full grid-cols-2 items-center justify-center gap-6 md:grid-cols-3 lg:gap-12">
+          <div className="mx-auto flex w-full items-center justify-center">
+            <img
+              src="https://krisha.kz/static/frontend/images/landing/mobile/krisha-logo.png"
+              width={140}
+              height={70}
+              alt="Logo"
+              className="aspect-[2/1] overflow-hidden rounded-lg object-contain object-center"
+            />
+          </div>
+          <div className="mx-auto flex w-full items-center justify-center">
+            <img
+              src="https://habrastorage.org/getpro/moikrug/uploads/company/100/007/101/9/logo/medium_a5416a751f7e73c461761b458b50c5d0.jpg"
+              width={140}
+              height={70}
+              alt="Logo"
+              className="aspect-[2/1] overflow-hidden rounded-lg object-contain object-center"
+            />
+          </div>
+          <div className="mx-auto flex w-full items-center justify-center">
+            <img
+              src="https://www.kn.kz/favicon/android-chrome-256x256.png"
+              width={140}
+              height={70}
+              alt="Logo"
+              className="aspect-[2/1] overflow-hidden rounded-lg object-contain object-center"
+            />
+          </div>
+          <div className="mx-auto flex w-full items-center justify-center">
+            <img
+              src="https://nedvizhka.kz/static/interface/logo_ned.svg"
+              width={140}
+              height={70}
+              alt="Logo"
+              className="aspect-[2/1] overflow-hidden rounded-lg object-contain object-center"
+            />
+          </div>
+          <div className="mx-auto flex w-full items-center justify-center">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdF6IDT4UFuXAFD4IF-iVJCRGk7hRnxvdP5Q&s"
+              width={140}
+              height={70}
+              alt="Logo"
+              className="aspect-[2/1] overflow-hidden rounded-lg object-contain object-center"
+            />
+          </div>
+          <div className="mx-auto flex w-full items-center justify-center">
+            <img
+              src="https://avatars.dzeninfra.ru/get-zen_doc/271828/pub_65e2d2f2ad51546e2aa11191_65e2da3b25136a1f45a25642/scale_1200"
+              width={140}
+              height={70}
+              alt="Logo"
+              className="aspect-[2/1] overflow-hidden rounded-lg object-contain object-center"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
         <section className="container mx-auto pb-16 px-4 md:px-6 flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="p-4 max-w-xl mx-auto dark:bg-gray-800">
-
     <h2 className=" mb-8 text-3xl font-bold lg:text-4xl">Как это работает?
     </h2>
 
@@ -83,7 +154,7 @@ export function HomeComponent() {
             <div>
                 <div className="flex h-10 w-10 items-center justify-center rounded-[999px] border-2 border-blue-900"><svg
                         xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
                         className="h-6 w-6 text-blue-800 dark:text-slate-200">
                         <path d="M12 5l0 14"></path>
                         <path d="M18 13l-6 6"></path>
@@ -104,7 +175,7 @@ export function HomeComponent() {
                     <div>
                         <div className="flex h-10 w-10 items-center justify-center rounded-[999px] border-2 border-blue-900"><svg
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
                                 className="h-6 w-6 text-blue-800 dark:text-slate-200">
                                 <path d="M12 5l0 14"></path>
                                 <path d="M18 13l-6 6"></path>
@@ -125,7 +196,7 @@ export function HomeComponent() {
                     <div>
                         <div className="flex h-10 w-10 items-center justify-center rounded-[999px] border-2 border-blue-900"><svg
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
                                 className="h-6 w-6 text-blue-800 dark:text-slate-200">
                                 <path d="M12 5l0 14"></path>
                                 <path d="M18 13l-6 6"></path>
@@ -147,7 +218,7 @@ export function HomeComponent() {
                         <div
                             className="flex h-10 w-10 items-center justify-center rounded-[999px] border-2 border-blue-900 bg-blue-900">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
                                 className="h-6 w-6 text-white dark:text-slate-200">
                                 <path d="M5 12l5 5l10 -10"></path>
                             </svg>

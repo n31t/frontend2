@@ -30,21 +30,21 @@ export function Header() {
               </Link>
             </li>
             <li className="max-lg:border-b max-lg:py-3 px-3">
-              <Link href="/about" className="hover:text-[#7f61f7] text-[#333] block font-semibold text-[15px]">
+              <Link href="/about" className="hover:text-[#7f61f7] text-[#a200ff] block font-semibold text-[15px]">
                 О нас
               </Link>
             </li>
           </ul>
         </div>
 
-        <div className="flex items-center ml-auto space-x-6">
+        {/* <div className="flex items-center ml-auto space-x-6">
           <Button className="px-4 py-2 text-sm rounded-sm font-bold text-[#FFFFFF] border-2 border-[#ff851a] bg-[#ff851a] transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[#007bff]">
             <Link href="#" className="text-[#ffffff] transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[#ff851a]">Войти</Link>
           </Button>
           <Button className="px-4 py-2 text-sm rounded-sm font-bold text-[#FFFFFF] border-2 border-[#4A00E0] bg-[#4A00E0] transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[#4A00E0]">
             Регистрация
           </Button>
-        </div>
+        </div> */}
       </div>
     </header>
   );
