@@ -3,13 +3,14 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { BathIcon, BedIcon, ChevronDownIcon, DollarSignIcon, JapaneseYen, RulerIcon } from "lucide-react";
+import { BathIcon, BedIcon, ChevronDownIcon, ChevronRight, DollarSignIcon, JapaneseYen, RulerIcon } from "lucide-react";
 import { Button2 } from "./ui/button2";
 import CustomButton from "./customButton";
 import { SearchBar } from "./search-bar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
+import SpinningLoader from "./spin";
 
 export function SearchComponent() {
   const [searchInput, setSearchInput] = useState("");
@@ -18,66 +19,115 @@ export function SearchComponent() {
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(100000000);
   const [rooms, setRooms] = useState("1-4 комн.");
+  const [isLoading, setIsLoading] = useState(false); // State for loading indicator
 
   const handleSearch = async () => {
-    const response = await fetch("http://localhost:3838/api/v1/apartments/lc/reccomendation", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        prompt: searchInput,
-        classify: type,
-        minPrice: minPrice,
-        maxPrice: maxPrice,
-        rooms: rooms,
-      }),
-    });
+    // const response = await fetch("http://localhost:3838/api/v1/apartments/lc/reccomendation", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     prompt: searchInput,
+    //     classify: type,
+    //     minPrice: minPrice,
+    //     maxPrice: maxPrice,
+    //     rooms: rooms,
+    //   }),
+    // });
 
-    if (response.ok) {
-      const recommendations = await response.json();
-      const detailedApartments = await Promise.all(
-        recommendations.map(async ({ link, reason }) => {
-          const detailResponse = await fetch("http://localhost:3838/api/v1/apartments/find/link", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ link }),
-          });
+    // if (response.ok) {
+    //   const recommendations = await response.json();
+    //   const detailedApartments = await Promise.all(
+    //     recommendations.map(async ({ link, reason }) => {
+    //       const detailResponse = await fetch("http://localhost:3838/api/v1/apartments/find/link", {
+    //         method: "POST",
+    //         headers: {
+    //           "Content-Type": "application/json",
+    //         },
+    //         body: JSON.stringify({ link }),
+    //       });
 
-          if (detailResponse.ok) {
-            const apartmentDetails = await detailResponse.json();
-            return { ...apartmentDetails, reason };
-          } else {
-            console.error(`Failed to fetch details for link: ${link}`);
-            return null;
-          }
-        })
-      );
+    //       if (detailResponse.ok) {
+    //         const apartmentDetails = await detailResponse.json();
+    //         return { ...apartmentDetails, reason };
+    //       } else {
+    //         console.error(`Failed to fetch details for link: ${link}`);
+    //         return null;
+    //       }
+    //     })
+    //   );
 
-      setApartments(detailedApartments.filter(apartment => apartment !== null));
-    } else {
-      console.error("Failed to fetch apartment recommendations");
+    //   setApartments(detailedApartments.filter(apartment => apartment !== null));
+    // } else {
+    //   console.error("Failed to fetch apartment recommendations");
+    // }
+    setIsLoading(true);
+    try {
+      const response = await fetch("http://localhost:3838/api/v1/apartments/lc/reccomendation", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          prompt: searchInput,
+          classify: type,
+          minPrice: minPrice,
+          maxPrice: maxPrice,
+          rooms: rooms,
+        }),
+      });
+
+      if (response.ok) {
+        const recommendations = await response.json();
+        const detailedApartments = await Promise.all(
+          recommendations.map(async ({ link, reason }) => {
+            const detailResponse = await fetch("http://localhost:3838/api/v1/apartments/find/link", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ link }),
+            });
+
+            if (detailResponse.ok) {
+              const apartmentDetails = await detailResponse.json();
+              return { ...apartmentDetails, reason };
+            } else {
+              console.error(`Failed to fetch details for link: ${link}`);
+              return null;
+            }
+          })
+        );
+
+        setApartments(detailedApartments.filter(apartment => apartment !== null));
+      } else {
+        console.error("Failed to fetch apartment recommendations");
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setIsLoading(false); // Set loading state back to false after fetch
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#6640ac] to-[#6640ac] text-[#ffffff]">
+    <div className="min-h-screen bg-gradient-to-br from-[#333333] to-[#333333] text-[#ffffff]">
       <main>
       <section 
-      className="w-full flex flex-col items-center justify-center gap-8"
-      style={{ 
-        backgroundImage: 'url(https://cdn.pixabay.com/photo/2017/08/06/18/01/city-2594707_1280.jpg)', 
-        backgroundSize: 'cover', 
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        // backgroundAttachment: 'fixed'
-      }}
-    >
+        className="w-full flex flex-col items-center justify-center gap-8"
+        style={{ 
+          backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(https://cdn.pixabay.com/photo/2017/08/06/18/01/city-2594707_1280.jpg)', 
+          backgroundSize: 'cover', 
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          // backgroundAttachment: 'fixed'
+        }}
+      >
           <div className="w-full max-w-7xl mx-auto p-4">
             <div className="text-left mb-4 mt-20">
               <h1 className="text-3xl font-bold">Найдите первым выгодную недвижимость в Алматы</h1>
+              <p className="text-[#d7d7d7]">Делайте запросы более конкретными для лучших результатов</p>
             </div>
             <div className="bg-white">
               <Tabs defaultValue="buy">
@@ -138,7 +188,7 @@ export function SearchComponent() {
                   </DropdownMenu>
                   <Input
                     type="text"
-                    placeholder="Улица, квартиры для большой семьи, со стиральной машиной"
+                    placeholder="Улица, квартиры для большой семьи, со стиральной машиной, возле метро"
                     className="w-full flex-1 border-[0px] border-l-[1px] rounded-[0px] "
                     value={searchInput}
                     onChange={e => setSearchInput(e.target.value)}
@@ -146,25 +196,96 @@ export function SearchComponent() {
                 </div>
               </div>
             </div>
-            <div className="text-right mb-4 p-4">
-              <Button onClick={handleSearch} className="px-8 py-4 w-full sm:w-auto mx-2 text-[15px] bg-[#0468ff] hover:bg-[#ce792e]">
-                Найти
-              </Button>
+            <div className="text-right mb-0 py-4">
+              
+            <Button onClick={handleSearch} className="px-8 py-4 w-full sm:w-auto ml-2 text-[15px] bg-[#0468ff] hover:bg-[#195dc4]">
+            {isLoading ? 'Загрузка...' : 'Найти'}
+            </Button><div className="w-full flex justify-start items-center">
+              <div className="flex items-center justify-start gap-6 overflow-x-auto">
+                <div className="flex items-center justify-start">
+                  <img
+                    src="https://krisha.kz/static/frontend/images/landing/mobile/krisha-logo.png"
+                    width={70}
+                    height={35}
+                    alt="Krisha.kz Logo"
+                    className="aspect-[2/1] overflow-hidden rounded-lg object-contain object-center opacity-60 hover:opacity-100 transition-opacity"
+                  />
+                </div>
+                <div className="flex items-center justify-start">
+                  <img
+                    src="https://habrastorage.org/getpro/moikrug/uploads/company/100/007/101/9/logo/medium_a5416a751f7e73c461761b458b50c5d0.jpg"
+                    width={70}
+                    height={35}
+                    alt="Moikrug Logo"
+                    className="aspect-[2/1] overflow-hidden rounded-lg object-contain object-center opacity-60 hover:opacity-100 transition-opacity"
+                  />
+                </div>
+                <div className="flex items-center justify-start">
+                  <img
+                    src="https://www.kn.kz/favicon/android-chrome-256x256.png"
+                    width={70}
+                    height={35}
+                    alt="Kn.kz Logo"
+                    className="aspect-[2/1] overflow-hidden rounded-lg object-contain object-center opacity-60 hover:opacity-100 transition-opacity"
+                  />
+                </div>
+                <div className="flex items-center justify-start">
+                  <img
+                    src="https://nedvizhka.kz/static/interface/logo_ned.svg"
+                    width={70}
+                    height={35}
+                    alt="Nedvizhka.kz Logo"
+                    className="aspect-[2/1] overflow-hidden rounded-lg object-contain object-center opacity-60 hover:opacity-100 transition-opacity"
+                  />
+                </div>
+                <div className="flex items-center justify-start">
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdF6IDT4UFuXAFD4IF-iVJCRGk7hRnxvdP5Q&s"
+                    width={70}
+                    height={35}
+                    alt="Logo"
+                    className="aspect-[2/1] overflow-hidden rounded-lg object-contain object-center opacity-60 hover:opacity-100 transition-opacity"
+                  />
+                </div>
+                <div className="flex items-center justify-start">
+                  <img
+                    src="https://avatars.dzeninfra.ru/get-zen_doc/271828/pub_65e2d2f2ad51546e2aa11191_65e2da3b25136a1f45a25642/scale_1200"
+                    width={70}
+                    height={35}
+                    alt="Logo"
+                    className="aspect-[2/1] overflow-hidden rounded-lg object-contain object-center opacity-60 hover:opacity-100 transition-opacity"
+                  />
+                </div>
+              </div>
             </div>
+          </div>
+          <p className="w-full text-[12px] text-[#d7d7d7] text-left">
+          Мы получаем информацию о заявках на продажу и предложениях квартир из доверенных ресурсов. Мы не несем ответственности за точность размещенной информации на этих платформах.
+          </p>
+          
+
+
           </div>
           <div className="space-y-6 max-w-md lg:max-w-5xl text-center">
           </div>
         </section>
+        {isLoading ? (
+            <div className="mt-10 mx-auto">
+             
+            </div>
+          ) : (
         <section className="container mx-auto py-24 px-4 md:px-6 grid grid-cols-1 md:grid-cols-1 gap-8">
           <div className="w-full mx-auto max-w-5xl">
-            <h1 className="text-2xl font-bold mb-6">Преложенный ряд квартир:</h1>
+            <h1 className="text-2xl font-bold mb-6">Предложенный ряд квартир:</h1>
             <p className="text-sm">Найдено {apartments.length} объявлений</p>
           </div>
+          
           {apartments.map(apartment => (
+            <Link href={`/apartments/${apartment.id}`} target="_blank" rel="noopener noreferrer">
             <Card key={apartment.link} className="w-full border-0 border-t-[0.5px] border-b-[0.5px] mx-auto max-w-5xl grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-6 p-6 sm:p-8 md:p-10 rounded-xl">
               <div className="relative overflow-hidden rounded-lg" style={{ height: '200px' }}>
                 <img
-                  src="{apartment.photos[0]}"
+                  src={apartment.photos[0]}
                   alt="Property Image"
                   className="w-full h-full object-cover"
                 />
@@ -172,7 +293,7 @@ export function SearchComponent() {
               <div className="grid gap-4">
                 <div className="grid gap-4">
                   <div>
-                    <h2 className="text-xl font-bold text-[#ff851a] mb-4">{apartment.floor}</h2>
+                    <h2 className="text-xl font-bold text-[#0468ff] mb-4">{apartment.floor}</h2>
                     <p className="text-[#ffffff] text-sm mb-4">
                       <span>{apartment.location}</span>
                     </p>
@@ -181,22 +302,26 @@ export function SearchComponent() {
                     </div>
                     <p className="text-[#cdcdcd] text-sm mb-6">{apartment.description}</p>
                     <div className="relative group">
-                      <h2 className="text-l font-bold text-[#ff851a] mb-4 cursor-pointer">Оценка от ИИ</h2>
-                      <div className="absolute left-0 top-full mt-2 hidden group-hover:block p-4 bg-[#2a2a2a] border border-[#ff851a] rounded-lg">
+                      <h2 className="text-l font-bold text-[#33b249] mb-4 cursor-pointer">
+                        Оценка от ИИ <ChevronRight className="inline-block ml-0 mb-1" /> {/* Added ChevronRight icon */}
+                      </h2>
+                      <div className="absolute left-0 top-full mt-2 hidden group-hover:block p-4 bg-[#2a2a2a] border border-[#33b249] rounded-lg">
                         <p className="text-[#cdcdcd] text-sm mb-6">{apartment.reason}</p>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-col items-start gap-4">
+                {/* <div className="flex flex-col items-start gap-4">
                   <div className="flex justify-end w-full">
-                    <Button>View Details</Button>
+                    <Button>Посмотреть подробнее</Button>
                   </div>
-                </div>
+                </div> */}
               </div>
             </Card>
+            </Link>
           ))}
         </section>
+          )}
       </main>
     </div>
   );
