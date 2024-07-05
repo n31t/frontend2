@@ -12,9 +12,24 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
 import SpinningLoader from "./spin";
 
+interface Apartment {
+  id: number;
+  link: string;
+  price: string;
+  location: string;
+  floor: string;
+  number: string;
+  photos: string[];
+  characteristics: { [key: string]: string };
+  description: string;
+  site: string;
+  type: string;
+  reason ?: string;
+}
+
 export function SearchComponent() {
   const [searchInput, setSearchInput] = useState("");
-  const [apartments, setApartments] = useState([]);
+  const [apartments, setApartments] = useState<Apartment[]>([]);
   const [type, setType] = useState("buy");
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(100000000);
@@ -64,7 +79,7 @@ export function SearchComponent() {
     // }
     setIsLoading(true);
     try {
-      const response = await fetch("http://localhost:3838/api/v1/apartments/lc/reccomendation", {
+      const response = await fetch("https://backend-production-f116.up.railway.app/api/v1/apartments/lc/reccomendation", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -81,8 +96,8 @@ export function SearchComponent() {
       if (response.ok) {
         const recommendations = await response.json();
         const detailedApartments = await Promise.all(
-          recommendations.map(async ({ link, reason }) => {
-            const detailResponse = await fetch("http://localhost:3838/api/v1/apartments/find/link", {
+          recommendations.map(async ({ link, reason } : {link: string, reason : string}) => {
+            const detailResponse = await fetch("https://backend-production-f116.up.railway.app/api/v1/apartments/find/link", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",

@@ -26,7 +26,7 @@ const ApartmentDetails = ({ params: { id } }: { params: { id: number } }) => {
   useEffect(() => {
     const fetchApartmentDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:3838/api/v1/apartments/${id}`);
+        const response = await fetch(`https://backend-production-f116.up.railway.app/api/v1/apartments/${id}`);
         if (response.ok) {
           const data = await response.json();
           setApartment(data);
