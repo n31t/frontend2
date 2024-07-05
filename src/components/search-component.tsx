@@ -298,17 +298,19 @@ export function SearchComponent() {
           {apartments.map(apartment => (
             
             <Card key={apartment.link} className="w-full border-0 border-t-[0.5px] border-b-[0.5px] mx-auto max-w-5xl grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-6 p-6 sm:p-8 md:p-10 rounded-xl">
-              <Link href={`/apartments/${apartment.id}`} target="_blank" rel="noopener noreferrer">
               <div className="relative overflow-hidden rounded-lg" style={{ height: '200px' }}>
+              <Link href={`/apartments/${apartment.id}`} target="_blank" rel="noopener noreferrer">
                 <img
                   src={apartment.photos[0]}
                   alt="Property Image"
                   className="w-full h-full object-cover"
                 />
+                </Link>
               </div>
               <div className="grid gap-4">
                 <div className="grid gap-4">
                   <div>
+                  <Link href={`/apartments/${apartment.id}`} target="_blank" rel="noopener noreferrer">
                     <h2 className="text-xl font-bold text-[#0468ff] mb-4">{apartment.floor}</h2>
                     <p className="text-[#ffffff] text-sm mb-4">
                       <span>{apartment.location}</span>
@@ -317,6 +319,7 @@ export function SearchComponent() {
                       {apartment.price} 〒
                     </div>
                     <p className="text-[#cdcdcd] text-sm mb-6">{apartment.description}</p>
+                    </Link>
                     <div className="relative group">
                       <h2 className="text-l font-bold text-[#33b249] mb-4 cursor-pointer">
                         Оценка от ИИ <ChevronRight className="inline-block ml-0 mb-1" /> {/* Added ChevronRight icon */}
@@ -333,7 +336,7 @@ export function SearchComponent() {
                   </div>
                 </div> */}
               </div>
-              </Link>
+              
             </Card>
             
           ))}
