@@ -281,8 +281,9 @@ export function SearchComponent() {
           </div>
           
           {apartments.map(apartment => (
-            <Link href={`/apartments/${apartment.id}`} target="_blank" rel="noopener noreferrer">
+            
             <Card key={apartment.link} className="w-full border-0 border-t-[0.5px] border-b-[0.5px] mx-auto max-w-5xl grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-6 p-6 sm:p-8 md:p-10 rounded-xl">
+              <Link href={`/apartments/${apartment.id}`} target="_blank" rel="noopener noreferrer">
               <div className="relative overflow-hidden rounded-lg" style={{ height: '200px' }}>
                 <img
                   src={apartment.photos[0]}
@@ -317,8 +318,9 @@ export function SearchComponent() {
                   </div>
                 </div> */}
               </div>
+              </Link>
             </Card>
-            </Link>
+            
           ))}
         </section>
           )}
