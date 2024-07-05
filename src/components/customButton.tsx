@@ -1,6 +1,6 @@
 import React from "react";
 import { cn } from "@/lib/utils";
-const CustomButton = ({ icon, text, onClick }) => {
+const CustomButton = ({ icon, text, onClick }: { icon: any, text: any, onClick: any }) => {
   return (
     <button
       onClick={onClick}
