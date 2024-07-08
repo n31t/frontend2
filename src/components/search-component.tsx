@@ -315,14 +315,16 @@ export function SearchComponent() {
                 <div className="grid gap-4">
                   <div>
                   <Link href={`/apartments/${apartment.id}`} target="_blank" rel="noopener noreferrer">
-                    <h2 className="text-xl font-bold text-[#CB5200] mb-4">{apartment.floor}</h2>
+                    <h2 className="text-xl font-bold text-[#F36202] mb-4">{apartment.floor}</h2>
                     <p className="text-[#646464] text-sm mb-4">
                       <span>{apartment.location}</span>
                     </p>
                     <div className="text-xl font-bold text-[#202020] mb-4">
                       {formatPrice(apartment.price)} 〒
                     </div>
-                    <p className="text-[#8D8D8D] text-sm mb-6">{apartment.description}</p>
+                    <p className="text-[#8D8D8D] text-sm mb-6">
+                    {apartment.description.substring(0, 141)}...
+                      </p>
                     </Link>
                     <div className="relative group">
                       <h2 className="text-l font-bold text-[#FF7024] mb-4 cursor-pointer">
