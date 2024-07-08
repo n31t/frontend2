@@ -6,11 +6,11 @@ import { InfoComponent } from "./info-component"
 
 export function HomeComponent() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#8E2DE2] to-[#4A00E0] text-[#FFFFFF]">
+    <div className="min-h-screen bg-gradient-to-br from-[#FF7024] to-[#FFD9C7] text-[#FFFFFF]">
 
       <main>
       <section className="w-full h-[80dvh] relative ">
-          <div className="absolute inset-0 bg-gradient-to-r from-[#4A00E0]/80 to-[#8E2DE2]/60 z-10" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#F18F65]/80 to-[#FFD9C7]/60 z-10" />
           <video src="https://nf-spotify-hw.s3.eu-north-1.amazonaws.com/videos/16944946-uhd_3840_2160_60fps-2+-+COMPRESS.mp4" autoPlay loop muted className="w-full h-full object-cover" />
           <div className="absolute inset-0 flex flex-col items-center justify-center z-20 px-4 md:px-6">
             <div className="max-w-2xl space-y-4 text-center">
@@ -53,21 +53,21 @@ export function HomeComponent() {
           <div className="space-y-4">
             <MergeIcon className="h-12 w-12" />
             <h3 className="text-2xl font-bold">Умный поиск</h3>
-            <p className="text-[#808080]">
+            <p className="text-[#E8E8E8]">
             Наш ИИ анализирует множество факторов и предлагает наилучшие варианты, соответствующие вашим запросам.
             </p>
           </div>
           <div className="space-y-4" id="learnmore">
             <SignalMediumIcon className="h-12 w-12" />
             <h3 className="text-2xl font-bold">Авто коммуникация</h3>
-            <p className="text-[#808080]">
+            <p className="text-[#E8E8E8]">
             Наш сайт прост в использовании, что делает процесс поиска квартиры быстрым и приятным. Также большая часть процесса автоматизирована. 
             </p>
           </div>
           <div className="space-y-4">
             <ShoppingCartIcon className="h-12 w-12" />
             <h3 className="text-2xl font-bold">Обширная База Данных</h3>
-            <p className="text-[#808080]">
+            <p className="text-[#E8E8E8]">
             Мы собираем информацию с множества популярных сайтов недвижимости ежедневно, обеспечивая вам доступ к самым актуальным предложениям.
             </p>
           </div>

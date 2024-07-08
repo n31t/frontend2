@@ -55,6 +55,10 @@ const ApartmentDetails = ({ params: { id } }: { params: { id: number } }) => {
 
   const characteristics = apartment.characteristics;
 
+  const formatPrice = (price: string) => {
+    return new Intl.NumberFormat('ru-RU').format(Number(price));
+  };
+
   return (
     <div>
       <Header />
@@ -70,7 +74,7 @@ const ApartmentDetails = ({ params: { id } }: { params: { id: number } }) => {
             />
             <div className="grid md:grid-cols-2 gap-2">
               <div className="flex items-center gap-2">
-                <span className="text-4xl font-bold">{apartment.price}〒</span>
+                <span className="text-4xl font-bold">{formatPrice(apartment.price)} 〒</span>
               </div>
               <div className="flex items-center gap-2">
                 <LocateIcon className="w-5 h-5 text-muted-foreground" />

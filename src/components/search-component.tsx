@@ -125,14 +125,18 @@ export function SearchComponent() {
       setIsLoading(false); // Set loading state back to false after fetch
     }
   };
+  
+  const formatPrice = (price: string) => {
+    return new Intl.NumberFormat('ru-RU').format(Number(price));
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#333333] to-[#333333] text-[#ffffff]">
+    <div className="min-h-screen bg-gradient-to-br from-[#FFFFFF] to-[#FFFFFF] text-[#ffffff]">
       <main>
       <section 
         className="w-full flex flex-col items-center justify-center gap-8"
         style={{ 
-          backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(https://cdn.pixabay.com/photo/2017/08/06/18/01/city-2594707_1280.jpg)', 
+          backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6)), url(https://cdn.pixabay.com/photo/2017/08/06/18/01/city-2594707_1280.jpg)', 
           backgroundSize: 'cover', 
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
@@ -213,7 +217,7 @@ export function SearchComponent() {
             </div>
             <div className="text-right mb-0 py-4">
               
-            <Button onClick={handleSearch} className="px-8 py-4 w-full sm:w-auto ml-2 text-[15px] bg-[#0468ff] hover:bg-[#195dc4]">
+            <Button onClick={handleSearch} className="px-8 py-4 w-full sm:w-auto ml-2 text-[15px] bg-[#FF7024] hover:bg-[#CB5200]">
             {isLoading ? 'Загрузка...' : 'Найти'}
             </Button><div className="w-full flex justify-start items-center">
               <div className="flex items-center justify-start gap-6 overflow-x-auto">
@@ -290,14 +294,14 @@ export function SearchComponent() {
             </div>
           ) : (
         <section className="container mx-auto py-24 px-4 md:px-6 grid grid-cols-1 md:grid-cols-1 gap-8">
-          <div className="w-full mx-auto max-w-5xl">
+          <div className="w-full mx-auto max-w-5xl text-[#202020]">
             <h1 className="text-2xl font-bold mb-6">Предложенный ряд квартир:</h1>
-            <p className="text-sm">Найдено {apartments.length} объявлений</p>
+            <p className="text-sm text-[#838383]">Найдено {apartments.length} объявлений</p>
           </div>
           
           {apartments.map(apartment => (
             
-            <Card key={apartment.link} className="w-full border-0 border-t-[0.5px] border-b-[0.5px] mx-auto max-w-5xl grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-6 p-6 sm:p-8 md:p-10 rounded-xl">
+            <Card key={apartment.link} className="w-full border-[#CFCFCF] border-0 border-b-[0.5px] mx-auto max-w-5xl grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-6 p-6 sm:p-8 md:p-10 rounded-xl">
               <div className="relative overflow-hidden rounded-lg" style={{ height: '200px' }}>
               <Link href={`/apartments/${apartment.id}`} target="_blank" rel="noopener noreferrer">
                 <img
@@ -311,21 +315,21 @@ export function SearchComponent() {
                 <div className="grid gap-4">
                   <div>
                   <Link href={`/apartments/${apartment.id}`} target="_blank" rel="noopener noreferrer">
-                    <h2 className="text-xl font-bold text-[#0468ff] mb-4">{apartment.floor}</h2>
-                    <p className="text-[#ffffff] text-sm mb-4">
+                    <h2 className="text-xl font-bold text-[#CB5200] mb-4">{apartment.floor}</h2>
+                    <p className="text-[#646464] text-sm mb-4">
                       <span>{apartment.location}</span>
                     </p>
-                    <div className="text-xl font-bold text-[#FFFFFF] mb-4">
-                      {apartment.price} 〒
+                    <div className="text-xl font-bold text-[#202020] mb-4">
+                      {formatPrice(apartment.price)} 〒
                     </div>
-                    <p className="text-[#cdcdcd] text-sm mb-6">{apartment.description}</p>
+                    <p className="text-[#8D8D8D] text-sm mb-6">{apartment.description}</p>
                     </Link>
                     <div className="relative group">
-                      <h2 className="text-l font-bold text-[#33b249] mb-4 cursor-pointer">
+                      <h2 className="text-l font-bold text-[#FF7024] mb-4 cursor-pointer">
                         Оценка от ИИ <ChevronRight className="inline-block ml-0 mb-1" /> {/* Added ChevronRight icon */}
                       </h2>
-                      <div className="absolute left-0 top-full mt-2 hidden group-hover:block p-4 bg-[#2a2a2a] border border-[#33b249] rounded-lg">
-                        <p className="text-[#cdcdcd] text-sm mb-6">{apartment.reason}</p>
+                      <div className="absolute left-0 top-full mt-2 hidden group-hover:block p-4 bg-[#FFFFFFF] border border-[#FF7024] rounded-lg">
+                        <p className="text-[#8D8D8D] text-sm mb-6">{apartment.reason}</p>
                       </div>
                     </div>
                   </div>

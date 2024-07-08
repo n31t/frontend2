@@ -25,12 +25,12 @@ export function Header() {
               </Link>
             </li> */}
             <li className="max-lg:border-b max-lg:py-3 px-3">
-              <Link href="/" className="hover:text-[#7f61f7] text-[#a200ff] block font-semibold text-[15px]">
+              <Link href="/" className="hover:text-[#CB5200] text-[#FF7024] block font-semibold text-[15px]">
                 Главная
               </Link>
             </li>
             <li className="max-lg:border-b max-lg:py-3 px-3">
-              <Link href="/about" className="hover:text-[#7f61f7] text-[#a200ff] block font-semibold text-[15px]">
+              <Link href="/about" className="hover:text-[#CB5200] text-[#FF7024] block font-semibold text-[15px]">
                 О нас
               </Link>
             </li>

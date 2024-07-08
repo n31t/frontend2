@@ -13,7 +13,7 @@ export function Footer() {
                             <a href="/about" className="hover:underline me-4 md:me-6">О нас</a>
                         </li>
                         <li>
-                            <a href="#" className="hover:underline me-4 md:me-6">Instagram</a>
+                            <a href="https://www.instagram.com/home.spark.ai/" className="hover:underline me-4 md:me-6">Instagram</a>
                         </li>
                     </ul>
                 </div>
