@@ -317,14 +317,14 @@ export function SearchComponent() {
           ))}
         </section>
           )}
-         <section className="container mx-auto py-24 px-4 md:px-6">
+         {/* <section className="container mx-auto py-24 px-4 md:px-6">
           <div className="w-full mx-auto  text-[#202020]">
             <h1 className="text-2xl font-bold mb-6">Может заинтересовать:</h1>
           </div>
           <div className="relative"> 
             <CarouselComponent apartments={smallApartments} /> 
           </div> 
-        </section>
+        </section> */}
 
       </main>
       <style jsx>{`

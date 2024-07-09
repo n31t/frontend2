@@ -31,35 +31,35 @@ export function CarouselComponent({ apartments }: CarouselComponentProps) {
   };
 
   return (
-    <div className="relative">
-      <button onClick={prevSlide} className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10">
-        <ChevronLeft className="w-6 h-6 text-gray-600" />
+    <div className="carousel-container">
+      <button onClick={prevSlide} className="carousel-prev-button">
+        <ChevronLeft className="carousel-chevron" />
       </button>
-      <button onClick={nextSlide} className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10">
-        <ChevronRight className="w-6 h-6 text-gray-600" />
+      <button onClick={nextSlide} className="carousel-next-button">
+        <ChevronRight className="carousel-chevron" />
       </button>
-      <div className="overflow-hidden">
+      <div className="carousel-content">
         <div
-          className="flex transition-transform duration-300"
+          className="carousel-items"
           style={{ transform: `translateX(-${(currentIndex / itemsPerPage) * 100}%)` }}
         >
           {apartments.map((apartment) => (
-            <Card key={apartment.id} className="inline-block w-1/5">
-              <div className="flex items-center justify-center bg-gray-300">
+            <Card key={apartment.id} className="carousel-card">
+              <div className="carousel-card-image-container">
                 {apartment.photos.length > 0 && (
                   <img
                     src={apartment.photos[0]}
                     alt={apartment.location}
-                    className="w-full h-32 object-cover"
+                    className="carousel-card-image"
                   />
                 )}
               </div>
-              <CardContent className="p-4">
-                <div className="text-sm font-bold text-[#222]">{apartment.price} ₸</div>
-                <div className="text-xs text-[#333] mb-4">{apartment.location}</div>
-                <div className="mt-2 text-right">
-                  <a href={apartment.link} target="_blank" className="text-[#007bff] hover:underline">
-                    Подробнее <ChevronRight className="inline h-4 w-4 ml-1" />
+              <CardContent className="carousel-card-content">
+                <div className="carousel-card-price">{apartment.price} ₸</div>
+                <div className="carousel-card-location">{apartment.location}</div>
+                <div className="carousel-card-link-container">
+                  <a href={apartment.link} target="_blank" className="carousel-card-link">
+                    Подробнее <ChevronRight className="carousel-chevron-small" />
                   </a>
                 </div>
               </CardContent>
