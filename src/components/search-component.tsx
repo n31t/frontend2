@@ -217,10 +217,11 @@ export function SearchComponent() {
             </div>
             <div className="text-right mb-0 py-4">
               
-            <Button onClick={handleSearch} className="px-8 py-4 w-full sm:w-auto ml-2 text-[15px] bg-[#FF7024] hover:bg-[#CB5200]">
+            <Button onClick={handleSearch} className="px-8 py-4 w-full sm:w-auto ml-auto md:ml-2 text-[15px] bg-[#FF7024] hover:bg-[#CB5200]">
             {isLoading ? 'Загрузка...' : 'Найти'}
-            </Button><div className="w-full flex justify-start items-center">
-              <div className="flex items-center justify-start gap-6 overflow-x-auto">
+            </Button>
+            <div className="w-full flex justify-start items-center">
+              <div className="my-10 md:my-0 flex items-center justify-start gap-6 overflow-x-auto">
                 <div className="flex items-center justify-start">
                   <img
                     src="https://krisha.kz/static/frontend/images/landing/mobile/krisha-logo.png"
@@ -316,7 +317,7 @@ export function SearchComponent() {
                 <div className="grid gap-4">
                   <div>
                   <Link href={`/apartments/${apartment.id}`} target="_blank" rel="noopener noreferrer">
-                    <h2 className="text-xl font-bold text-[#F36202] mb-4">{apartment.floor}</h2>
+                    <h2 className="text-xl font-bold text-[#382AAF] mb-4">{apartment.floor}</h2>
                     <p className="text-[#646464] text-sm mb-4">
                       <span>{apartment.location}</span>
                     </p>
