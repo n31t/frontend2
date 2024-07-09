@@ -293,15 +293,15 @@ export function SearchComponent() {
              
             </div>
           ) : (
-        <section className="container mx-auto py-24 px-4 md:px-6 grid grid-cols-1 md:grid-cols-1 gap-8">
-          <div className="w-full mx-auto max-w-5xl text-[#202020]">
+        <section className="container mx-auto py-24 px-4 md:px-6 grid grid-cols-1 md:grid-cols-1 gap-8 ">
+          <div className="w-full mx-auto  text-[#202020]">
             <h1 className="text-2xl font-bold mb-6">Предложенный ряд квартир:</h1>
             <p className="text-sm text-[#838383]">Найдено {apartments.length} объявлений</p>
           </div>
           
           {apartments.map(apartment => (
             
-            <Card key={apartment.link} className="w-full border-[#CFCFCF] border-0 border-b-[0.5px] mx-auto max-w-5xl grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-6 p-6 sm:p-8 md:p-10 rounded-xl">
+            <Card key={apartment.link} className="w-full border-[#CFCFCF] border-0 border-b-[0.5px] mx-auto grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-6 p-6 sm:p-8 md:p-10 rounded-xl">
               <div className="relative overflow-hidden rounded-lg" style={{ height: '200px' }}>
               <Link href={`/apartments/${apartment.id}`} target="_blank" rel="noopener noreferrer">
                 <img
@@ -323,7 +323,7 @@ export function SearchComponent() {
                       {formatPrice(apartment.price)} 〒
                     </div>
                     <p className="text-[#8D8D8D] text-sm mb-6">
-                    {apartment.description.substring(0, 141)}...
+                    {apartment.description.substring(0, 139)}...
                       </p>
                     </Link>
                     <div className="relative group">
