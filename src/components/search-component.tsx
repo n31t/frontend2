@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { BathIcon, BedIcon, ChevronDownIcon, ChevronRight, DollarSignIcon, JapaneseYen, RulerIcon } from "lucide-react";
+import { BathIcon, BedIcon, ChevronDown, ChevronDownIcon, ChevronRight, DollarSignIcon, JapaneseYen, RulerIcon } from "lucide-react";
 import { Button2 } from "./ui/button2";
 import CustomButton from "./customButton";
 import { SearchBar } from "./search-bar";
@@ -216,11 +216,12 @@ export function SearchComponent() {
               </div>
             </div>
             <div className="text-right mb-0 py-4">
-              
+            
+            <Link href="#apartamentsList">
             <Button onClick={handleSearch} className="px-8 py-4 w-full sm:w-auto ml-auto md:ml-2 text-[15px] bg-[#FF7024] hover:bg-[#CB5200]">
             {isLoading ? 'Загрузка...' : 'Найти'}
-            </Button>
-            <div className="w-full flex justify-start items-center">
+            </Button></Link>
+            <div  id="apartamentsList" className="w-full flex justify-start items-center">
               <div className="my-10 md:my-0 flex items-center justify-start gap-6 overflow-x-auto">
                 <div className="flex items-center justify-start">
                   <img
@@ -291,7 +292,7 @@ export function SearchComponent() {
         </section>
         {isLoading ? (
             <div className="mt-10 mx-auto">
-             
+               <div className="loader mx-auto mt-40"></div>
             </div>
           ) : (
         <section className="container mx-auto py-24 px-4 md:px-6 grid grid-cols-1 md:grid-cols-1 gap-8 ">
@@ -330,7 +331,7 @@ export function SearchComponent() {
                     </Link>
                     <div className="relative group">
                       <h2 className="text-l font-bold text-[#FF7024] mb-4 cursor-pointer">
-                        Оценка от ИИ <ChevronRight className="inline-block ml-0 mb-1" /> {/* Added ChevronRight icon */}
+                        Оценка от ИИ <ChevronDown className="inline-block ml-0 mb-1" /> {/* Added ChevronRight icon */}
                       </h2>
                       {/* <div className="absolute left-0 top-full mt-2 hidden group-hover:block p-4 bg-[#FFFFFFF] border border-[#FF7024] rounded-lg">
                         <p className="text-[#8D8D8D] text-sm mb-6">{apartment.reason}</p>
@@ -354,6 +355,28 @@ export function SearchComponent() {
         </section>
           )}
       </main>
+      <style jsx>{`
+  .loader {
+    width: 85px;
+    height: 50px;
+    --g1:conic-gradient(from  90deg at left   3px top   3px,#0000 90deg,#FF7024 0);
+    --g2:conic-gradient(from -90deg at bottom 3px right 3px,#0000 90deg,#FF7024 0);
+    background: var(--g1),var(--g1),var(--g1), var(--g2),var(--g2),var(--g2);
+    background-position: left,center,right;
+    background-repeat: no-repeat;
+    animation: l10 1s infinite alternate;
+  }
+  @keyframes l10 {
+    0%,
+    2%   {background-size:25px 50% ,25px 50% ,25px 50%}
+    20%  {background-size:25px 25% ,25px 50% ,25px 50%}
+    40%  {background-size:25px 100%,25px 25% ,25px 50%}
+    60%  {background-size:25px 50% ,25px 100%,25px 25%}
+    80%  {background-size:25px 50% ,25px 50% ,25px 100%}
+    98%,
+    100% {background-size:25px 50% ,25px 50% ,25px 50%}
+  }
+`}</style>
     </div>
   );
 }
