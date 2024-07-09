@@ -301,11 +301,12 @@ export function SearchComponent() {
           
           {apartments.map(apartment => (
             
-            <Card key={apartment.link} className="w-full border-[#CFCFCF] border-0 border-b-[0.5px] mx-auto grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-6 p-6 sm:p-8 md:p-10 rounded-xl">
-              <div className="relative overflow-hidden rounded-lg" style={{ height: '200px' }}>
+            <Card key={apartment.link} className="w-full border-[#CFCFCF] border-0 border-b-[0.5px] mx-auto grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-6 p-6 sm:p-8 md:p-10 rounded-xl"
+            style={{ marginLeft: '0', paddingLeft: '0' }}>
+              <div className="relative overflow-hidden rounded-lg" style={{ height: '300px', width: '600px' }}>
               <Link href={`/apartments/${apartment.id}`} target="_blank" rel="noopener noreferrer">
                 <img
-                  src={apartment.photos[0]}
+                  src={apartment.photos[1]}
                   alt="Property Image"
                   className="w-full h-full object-cover"
                 />
@@ -330,7 +331,10 @@ export function SearchComponent() {
                       <h2 className="text-l font-bold text-[#FF7024] mb-4 cursor-pointer">
                         Оценка от ИИ <ChevronRight className="inline-block ml-0 mb-1" /> {/* Added ChevronRight icon */}
                       </h2>
-                      <div className="absolute left-0 top-full mt-2 hidden group-hover:block p-4 bg-[#FFFFFFF] border border-[#FF7024] rounded-lg">
+                      {/* <div className="absolute left-0 top-full mt-2 hidden group-hover:block p-4 bg-[#FFFFFFF] border border-[#FF7024] rounded-lg">
+                        <p className="text-[#8D8D8D] text-sm mb-6">{apartment.reason}</p>
+                      </div> */}
+                      <div className="border border-[#FF7024] rounded-lg">
                         <p className="text-[#8D8D8D] text-sm mb-6">{apartment.reason}</p>
                       </div>
                     </div>
