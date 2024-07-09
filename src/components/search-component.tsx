@@ -10,8 +10,8 @@ import { SearchBar } from "./search-bar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
-import SpinningLoader from "./spin";
 import { CarouselComponent } from "./carousel-component";
+import HintComponent from "./hint-component";
 
 interface Apartment {
   id: number;
@@ -31,7 +31,7 @@ interface Apartment {
 export function SearchComponent() {
   const [searchInput, setSearchInput] = useState("");
   const [apartments, setApartments] = useState<Apartment[]>([]);
-  const [smallApartments, setSmallApartments] = useState<Apartment[]>([]);
+  // const [smallApartments, setSmallApartments] = useState<Apartment[]>([]);
   const [type, setType] = useState("buy");
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(100000000);
@@ -78,7 +78,6 @@ export function SearchComponent() {
         );
 
         setApartments(detailedApartments.filter(apartment => apartment !== null));
-        setSmallApartments(detailedApartments.filter(apartment => apartment !== null));
       } else {
         console.error("Failed to fetch apartment recommendations");
       }
@@ -119,7 +118,7 @@ export function SearchComponent() {
                   <TabsTrigger value="daily" onClick={() => setType("daily")}>Посуточно</TabsTrigger>
                 </TabsList>
               </Tabs>
-              <div className="p-4 bg-[#333333] rounded-b-[16px] py-6  px-4">
+              <div className="p-4 bg-[#333333] #8C8C8C py-6  px-4 rounded-b-[16px]">
                 <div className="flex flex-wrap gap-4">
                   <Select onValueChange={value => setType(value)}>
                     <SelectTrigger className="w-full sm:w-auto border-[0px]">
@@ -246,19 +245,24 @@ export function SearchComponent() {
           <p className="w-full text-[12px] text-[#d7d7d7] text-left">
           Мы получаем информацию о заявках на продажу и предложениях квартир из доверенных ресурсов. Мы не несем ответственности за точность размещенной информации на этих платформах.
           </p>
-          
-
-
+          <div className="w-full md:flex mt-4 gap-8">
+            <HintComponent hintImage="https://www.svgrepo.com/show/533732/party-horn.svg" hintText="Квартира для тусовки с джигами" setInputValue={setSearchInput}/>
+            <HintComponent hintImage="https://www.svgrepo.com/show/532390/users.svg" hintText="Квартира для большой семьи" setInputValue={setSearchInput} />
+            <HintComponent hintImage="https://www.svgrepo.com/show/532081/water.svg" hintText="Квартира в Бостандыкском районе со стиралкой" setInputValue={setSearchInput} />
+            <HintComponent hintImage="https://www.svgrepo.com/show/533033/bags-shopping.svg" hintText="Уютная квартира возле Меги" setInputValue={setSearchInput} />
           </div>
+          </div>
+
           <div className="space-y-6 max-w-md lg:max-w-5xl text-center">
           </div>
         </section>
+        
         {isLoading ? (
             <div className="mt-10 mx-auto">
                <div className="loader mx-auto mt-40"></div>
             </div>
           ) : (
-        <section className="container mx-auto py-24 px-4 md:px-6 grid grid-cols-1 md:grid-cols-1 gap-8 ">
+        <section className="container mx-auto pt-12 py-24 px-4 md:px-6 grid grid-cols-1 md:grid-cols-1 gap-8 ">
           <div className="w-full mx-auto  text-[#202020]">
             <h1 className="text-2xl font-bold mb-6">Предложенный ряд квартир:</h1>
             <p className="text-sm text-[#838383]">Найдено {apartments.length} объявлений</p>
