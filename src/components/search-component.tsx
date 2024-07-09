@@ -303,7 +303,7 @@ export function SearchComponent() {
             
             <Card key={apartment.link} className="w-full border-[#CFCFCF] border-0 border-b-[0.5px] mx-auto grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-6 p-6 sm:p-8 md:p-10 rounded-xl"
             style={{ marginLeft: '0', paddingLeft: '0' }}>
-              <div className="relative overflow-hidden rounded-lg" style={{ height: '300px', width: '600px' }}>
+              <div className="relative overflow-hidden rounded-lg" style={{ height: '200px', width: '400px' }}>
               <Link href={`/apartments/${apartment.id}`} target="_blank" rel="noopener noreferrer">
                 <img
                   src={apartment.photos[1]}
@@ -335,7 +335,7 @@ export function SearchComponent() {
                         <p className="text-[#8D8D8D] text-sm mb-6">{apartment.reason}</p>
                       </div> */}
                       <div className="border border-[#FF7024] rounded-lg">
-                        <p className="text-[#8D8D8D] text-sm mb-6">{apartment.reason}</p>
+                        <p className="text-[#646464] text-sm m-3">{apartment.reason}</p>
                       </div>
                     </div>
                   </div>
