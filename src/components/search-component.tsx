@@ -120,7 +120,7 @@ useEffect(() => {
         }}
       >
           <div className="w-full max-w-7xl mx-auto p-4">
-            <div className="text-left mb-4 mt-20">
+            <div className="text-left mb-4 mt-0 md:mt-20">
               <h1 className="text-3xl font-bold drop-shadow-lg">Найдите первым выгодную недвижимость в Алматы</h1>
               <p className="text-[#d7d7d7]">Делайте запросы более конкретными для лучших результатов</p>
             </div>

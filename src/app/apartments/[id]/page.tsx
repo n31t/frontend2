@@ -63,68 +63,51 @@ const ApartmentDetails = ({ params: { id } }: { params: { id: number } }) => {
     <div>
       <Header />
       <div className="flex flex-col min-h-[100dvh]">
-        <section className="mx-auto grid grid-cols-1 md:grid-cols-[1fr_650px] gap-4 md:gap-6 py-12 md:pt-8 lg:pt-10 container px-4 md:px-6">
-          <div className="grid gap-2">
-            <img
-              src={apartment.photos[1]}
-              width={500}
-              height={600}
-              alt="Apartment"
-              className="rounded-xl object-cover aspect-video"
-            />
-            <div className="grid md:grid-cols-2 gap-2">
-              <div className="flex items-center gap-2">
-                <span className="text-4xl font-bold">{formatPrice(apartment.price)} 〒</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <LocateIcon className="w-5 h-5 text-muted-foreground" />
-                <span className="text-muted-foreground">{apartment.location}</span>
+        <section className="container mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 py-12">
+          <div className="lg:col-span-2">
+            <div className="grid gap-4">
+              <img
+                src={apartment.photos[1]}
+                alt="Apartment"
+                className="rounded-xl object-cover w-full h-96"
+              />
+              <div className="grid grid-cols-3 gap-2">
+                {apartment.photos.map((photo, index) => (
+                  <img
+                    key={index}
+                    src={photo}
+                    alt="Apartment"
+                    className="rounded-xl object-cover w-full h-32"
+                  />
+                ))}
               </div>
             </div>
           </div>
-          <div className="grid gap-4">
-            <div className="grid gap-2">
-              <h2 className="text-3xl font-bold">{apartment.floor}</h2>
-              <p className="text-muted-foreground">{apartment.description}</p>
-            </div>
-            <div className="grid gap-2 grid-cols-2 ">
-              {Object.entries(characteristics).map(([key, value], index) => (
-                <div className="grid grid-cols-2 gap-2" key={index}>
-                  <div className="grid gap-1">
-                    <span className="text-muted-foreground">{key}</span>
+          <div className="bg-white p-6 rounded-xl shadow-md">
+            <div className="grid gap-4">
+              <h1 className="text-3xl font-bold">{apartment.type}</h1>
+              <span className="text-4xl font-bold text-blue-600">{formatPrice(apartment.price)} 〒</span>
+              <div className="flex items-center gap-2 text-gray-600">
+                <LocateIcon className="w-5 h-5" />
+                <span>{apartment.location}</span>
+              </div>
+              <div className="flex items-center gap-2 text-gray-600">
+                <span className="text-sm">{apartment.floor}</span>
+              </div>
+              <p className="text-gray-600">{apartment.description}</p>
+              <div className="grid gap-2">
+                {Object.entries(characteristics).map(([key, value], index) => (
+                  <div key={index} className="flex justify-between text-gray-600">
+                    <span>{key}</span>
                     <span className="font-medium">{value}</span>
                   </div>
-                </div>
-              ))}
-            </div>
-            <div className="mt-4">
-              <Link href={apartment.link} passHref
-                target="_blank" className="text-blue-600 hover:underline flex items-center gap-1 text-[#0468ff]">
-                  <ExternalLinkIcon className="w-4 h-4 " />
-                  Страница с оригиналом
-   
+                ))}
+              </div>
+              <Link href={apartment.link} passHref target="_blank" className="text-blue-600 hover:underline flex items-center gap-1">
+                <ExternalLinkIcon className="w-4 h-4" />
+                Страница с оригиналом
               </Link>
             </div>
-          </div>
-        </section>
-        <section className="ml-20 mr-auto bg-muted pb-4 md:pb-10 lg:pb-8">
-          <div className="container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-6 px-4 md:px-6">
-            {apartment.photos.slice(0).map((photo, index) => (
-              <Link
-                key={index}
-                href="#"
-                className="relative overflow-hidden rounded-xl transition-all after:opacity-0 after:absolute after:inset-0 after:bg-black hover:after:opacity-20 focus:after:opacity-20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                prefetch={false}
-              >
-                <img
-                  src={photo || '/placeholder.svg'}
-                  width={150}
-                  height={300}
-                  alt="Apartment"
-                  className="object-cover aspect-square"
-                />
-              </Link>
-            ))}
           </div>
         </section>
       </div>
