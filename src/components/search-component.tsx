@@ -221,7 +221,7 @@ useEffect(() => {
             <Button onClick={handleSearch} className="px-8 py-4 w-full sm:w-auto ml-auto md:ml-2 text-[15px] bg-[#FF7024] hover:bg-[#CB5200]">
             {isLoading ? 'Загрузка...' : 'Найти'}
             </Button></Link>
-            <div  id="apartamentsList" className="w-full flex justify-start items-center">
+            <div className="w-full flex justify-start items-center">
               <div className="my-10 md:my-0 flex items-center justify-start gap-6 overflow-x-auto">
                 <div className="flex items-center justify-start">
                   <img
@@ -296,7 +296,7 @@ useEffect(() => {
         </section>
         
         {isLoading ? (
-            <div className="mt-10 mx-auto">
+            <div id="apartamentsList" className="mt-10 mx-auto">
                <div className="loader mx-auto mt-40"></div>
                <h1 className="text-[#F36202] text-center">Загрузка{dots}</h1>
             </div>
