@@ -1,4 +1,6 @@
-import { useState } from "react";
+'use client'
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -37,7 +39,16 @@ export function SearchComponent() {
   const [maxPrice, setMaxPrice] = useState(100000000);
   const [rooms, setRooms] = useState("1-4 комн.");
   const [isLoading, setIsLoading] = useState(false); // State for loading indicator
+  
+  const [dots, setDots] = useState('');
 
+useEffect(() => {
+  const interval = setInterval(() => {
+    setDots((prevDots) => (prevDots.length < 3 ? prevDots + '.' : ''));
+  }, 500); // Change dots every 500ms
+
+  return () => clearInterval(interval); // Clean up on component unmount
+}, []);
   const handleSearch = async () => {
     setIsLoading(true);
     try {
@@ -137,6 +148,7 @@ export function SearchComponent() {
                       <SelectItem value="2">2 комн.</SelectItem>
                       <SelectItem value="3">3 комн.</SelectItem>
                       <SelectItem value="4">4 комн.</SelectItem>
+                      <SelectItem value="1-4 комн.">1-4 комн.</SelectItem>
                     </SelectContent>
                   </Select>
                   <DropdownMenu>
@@ -178,7 +190,6 @@ export function SearchComponent() {
               </div>
             </div>
             <div className="text-right mb-0 py-4">
-            
             <Link href="#apartamentsList">
             <Button onClick={handleSearch} className="px-8 py-4 w-full sm:w-auto ml-auto md:ml-2 text-[15px] bg-[#FF7024] hover:bg-[#CB5200]">
             {isLoading ? 'Загрузка...' : 'Найти'}
@@ -188,28 +199,28 @@ export function SearchComponent() {
                 <div className="flex items-center justify-start">
                   <img
                     src="https://krisha.kz/static/frontend/images/landing/mobile/krisha-logo.png"
-                    width={70}
+                    width={35}
                     height={35}
                     alt="Krisha.kz Logo"
-                    className="aspect-[2/1] overflow-hidden rounded-lg object-contain object-center opacity-60 hover:opacity-100 transition-opacity"
+                    className=" overflow-hidden rounded-lg object-contain object-center opacity-100 hover:opacity-100 transition-opacity"
                   />
                 </div>
                 <div className="flex items-center justify-start">
                   <img
                     src="https://habrastorage.org/getpro/moikrug/uploads/company/100/007/101/9/logo/medium_a5416a751f7e73c461761b458b50c5d0.jpg"
-                    width={70}
+                    width={35}
                     height={35}
                     alt="Moikrug Logo"
-                    className="aspect-[2/1] overflow-hidden rounded-lg object-contain object-center opacity-60 hover:opacity-100 transition-opacity"
+                    className=" overflow-hidden rounded-lg object-contain object-center opacity-100 hover:opacity-100 transition-opacity"
                   />
                 </div>
                 <div className="flex items-center justify-start">
                   <img
                     src="https://www.kn.kz/favicon/android-chrome-256x256.png"
-                    width={70}
+                    width={35}
                     height={35}
                     alt="Kn.kz Logo"
-                    className="aspect-[2/1] overflow-hidden rounded-lg object-contain object-center opacity-60 hover:opacity-100 transition-opacity"
+                    className=" overflow-hidden rounded-lg object-contain object-center opacity-100 hover:opacity-100 transition-opacity"
                   />
                 </div>
                 <div className="flex items-center justify-start">
@@ -218,16 +229,16 @@ export function SearchComponent() {
                     width={70}
                     height={35}
                     alt="Nedvizhka.kz Logo"
-                    className="aspect-[2/1] overflow-hidden rounded-lg object-contain object-center opacity-60 hover:opacity-100 transition-opacity"
+                    className="aspect-[2/1] overflow-hidden rounded-lg object-contain object-center opacity-100 hover:opacity-100 transition-opacity"
                   />
                 </div>
                 <div className="flex items-center justify-start">
                   <img
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdF6IDT4UFuXAFD4IF-iVJCRGk7hRnxvdP5Q&s"
-                    width={70}
+                    width={35}
                     height={35}
                     alt="Logo"
-                    className="aspect-[2/1] overflow-hidden rounded-lg object-contain object-center opacity-60 hover:opacity-100 transition-opacity"
+                    className=" overflow-hidden rounded-lg object-contain object-center opacity-100 hover:opacity-100 transition-opacity"
                   />
                 </div>
                 <div className="flex items-center justify-start">
@@ -236,7 +247,7 @@ export function SearchComponent() {
                     width={70}
                     height={35}
                     alt="Logo"
-                    className="aspect-[2/1] overflow-hidden rounded-lg object-contain object-center opacity-60 hover:opacity-100 transition-opacity"
+                    className="aspect-[2/1] overflow-hidden rounded-lg object-contain object-center opacity-100 hover:opacity-100 transition-opacity"
                   />
                 </div>
               </div>
@@ -260,11 +271,12 @@ export function SearchComponent() {
         {isLoading ? (
             <div className="mt-10 mx-auto">
                <div className="loader mx-auto mt-40"></div>
+               <h1 className="text-[#F36202] text-center">Загрузка{dots}</h1>
             </div>
           ) : (
         <section className="container mx-auto pt-12 py-24 px-4 md:px-6 grid grid-cols-1 md:grid-cols-1 gap-8 ">
           <div className="w-full mx-auto  text-[#202020]">
-            <h1 className="text-2xl font-bold mb-6">Предложенный ряд квартир:</h1>
+            <h1 className="text-2xl font-bold mb-6 ">Предложенный ряд квартир:</h1>
             <p className="text-sm text-[#838383]">Найдено {apartments.length} объявлений</p>
           </div>
           

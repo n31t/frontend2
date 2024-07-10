@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Roboto } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react"
 import "./globals.css";
 
@@ -10,6 +10,11 @@ export const metadata: Metadata = {
   description: "AI powered platform for apartment hunting in Almaty",
 };
 
+const roboto = Roboto({
+  subsets: ["latin"],
+  weight: ["300", "400", "700"]
+});
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -17,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={roboto.className}>
         {children}
         <Analytics />
         </body>
