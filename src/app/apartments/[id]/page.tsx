@@ -22,6 +22,7 @@ import { Footer } from '@/components/layout/footer';
 const ApartmentDetails = ({ params: { id } }: { params: { id: number } }) => {
   const [apartment, setApartment] = useState<Apartment | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchApartmentDetails = async () => {
@@ -66,18 +67,19 @@ const ApartmentDetails = ({ params: { id } }: { params: { id: number } }) => {
         <section className="container mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 py-12">
           <div className="lg:col-span-2">
             <div className="grid gap-4">
-              <img
-                src={apartment.photos[1]}
+            <img
+                src={selectedPhoto || ''}
                 alt="Apartment"
                 className="rounded-xl object-cover w-full h-96"
-              />
-              <div className="grid grid-cols-3 gap-2">
+            />
+              <div className="grid grid-cols-10 gap-2">
                 {apartment.photos.map((photo, index) => (
                   <img
                     key={index}
                     src={photo}
                     alt="Apartment"
-                    className="rounded-xl object-cover w-full h-32"
+                    className={`rounded-full object-cover w-full h-20 cursor-pointer ${selectedPhoto === photo ? 'border-4 border-blue-600' : ''}`}
+                    onClick={() => setSelectedPhoto(photo)}
                   />
                 ))}
               </div>
@@ -85,25 +87,25 @@ const ApartmentDetails = ({ params: { id } }: { params: { id: number } }) => {
           </div>
           <div className="bg-white p-6 rounded-xl shadow-md">
             <div className="grid gap-4">
-              <h1 className="text-3xl font-bold">{apartment.type}</h1>
+              <h1 className="text-3xl font-bold">{apartment.floor}</h1>
               <span className="text-4xl font-bold text-blue-600">{formatPrice(apartment.price)} 〒</span>
               <div className="flex items-center gap-2 text-gray-600">
                 <LocateIcon className="w-5 h-5" />
                 <span>{apartment.location}</span>
               </div>
-              <div className="flex items-center gap-2 text-gray-600">
+              {/* <div className="flex items-center gap-2 text-gray-600">
                 <span className="text-sm">{apartment.floor}</span>
-              </div>
-              <p className="text-gray-600">{apartment.description}</p>
+              </div> */}
               <div className="grid gap-2">
                 {Object.entries(characteristics).map(([key, value], index) => (
                   <div key={index} className="flex justify-between text-gray-600">
-                    <span>{key}</span>
+                    <span className="text-[#CECECE]">{key}</span>
                     <span className="font-medium">{value}</span>
                   </div>
                 ))}
               </div>
-              <Link href={apartment.link} passHref target="_blank" className="text-blue-600 hover:underline flex items-center gap-1">
+              <p className="text-gray-600">{apartment.description}</p>
+              <Link href={apartment.link} passHref target="_blank" className="text-blue-[#FF7024] hover:underline flex items-center gap-1">
                 <ExternalLinkIcon className="w-4 h-4" />
                 Страница с оригиналом
               </Link>
