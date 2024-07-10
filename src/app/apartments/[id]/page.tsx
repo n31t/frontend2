@@ -74,7 +74,7 @@ const ApartmentDetails = ({ params: { id } }: { params: { id: number } }) => {
             <img
                 src={selectedPhoto || ''}
                 alt="Apartment"
-                className="rounded-xl object-cover w-1/2 h-84 mx-auto"
+                className="rounded-xl object-cover w-full md:w-1/2 h-84 mx-auto"
             />
               <div className="grid grid-cols-10 gap-2">
                 {apartment.photos.map((photo, index) => (
