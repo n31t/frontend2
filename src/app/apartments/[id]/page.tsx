@@ -31,6 +31,10 @@ const ApartmentDetails = ({ params: { id } }: { params: { id: number } }) => {
         if (response.ok) {
           const data = await response.json();
           setApartment(data);
+
+          if (data.photos && data.photos.length > 0) {
+            setSelectedPhoto(data.photos[0]);
+          }
         } else {
           console.error('Failed to fetch apartment details');
         }
@@ -70,7 +74,7 @@ const ApartmentDetails = ({ params: { id } }: { params: { id: number } }) => {
             <img
                 src={selectedPhoto || ''}
                 alt="Apartment"
-                className="rounded-xl object-cover w-full h-96"
+                className="rounded-xl object-cover w-1/2 h-84 mx-auto"
             />
               <div className="grid grid-cols-10 gap-2">
                 {apartment.photos.map((photo, index) => (
@@ -88,9 +92,8 @@ const ApartmentDetails = ({ params: { id } }: { params: { id: number } }) => {
           <div className="bg-white p-6 rounded-xl shadow-md">
             <div className="grid gap-4">
               <h1 className="text-3xl font-bold">{apartment.floor}</h1>
-              <span className="text-4xl font-bold text-blue-600">{formatPrice(apartment.price)} 〒</span>
-              <div className="flex items-center gap-2 text-gray-600">
-                <LocateIcon className="w-5 h-5" />
+              <span className="text-4xl font-bold">{formatPrice(apartment.price)} 〒</span>
+              <div className="flex items-center gap-2">
                 <span>{apartment.location}</span>
               </div>
               {/* <div className="flex items-center gap-2 text-gray-600">
@@ -99,13 +102,13 @@ const ApartmentDetails = ({ params: { id } }: { params: { id: number } }) => {
               <div className="grid gap-2">
                 {Object.entries(characteristics).map(([key, value], index) => (
                   <div key={index} className="flex justify-between text-gray-600">
-                    <span className="text-[#CECECE]">{key}</span>
+                    <span className="text-[#8C8C8C]">{key}</span>
                     <span className="font-medium">{value}</span>
                   </div>
                 ))}
               </div>
               <p className="text-gray-600">{apartment.description}</p>
-              <Link href={apartment.link} passHref target="_blank" className="text-blue-[#FF7024] hover:underline flex items-center gap-1">
+              <Link href={apartment.link} passHref target="_blank" className="text-[#FF7024] hover:underline flex items-center gap-1">
                 <ExternalLinkIcon className="w-4 h-4" />
                 Страница с оригиналом
               </Link>
