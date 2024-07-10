@@ -37,6 +37,8 @@ export function SearchComponent() {
   const [type, setType] = useState("buy");
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(100000000);
+  const [displayMaxPrice, setDisplayMaxPrice] = useState('');
+  const [displayMinPrice, setDisplayMinPrice] = useState('');
   const [rooms, setRooms] = useState("1-4 комн.");
   const [isLoading, setIsLoading] = useState(false); // State for loading indicator
   
@@ -50,6 +52,7 @@ useEffect(() => {
   return () => clearInterval(interval); // Clean up on component unmount
 }, []);
   const handleSearch = async () => {
+    console.log(minPrice, maxPrice);
     setIsLoading(true);
     try {
       const response = await fetch("https://backend-production-f116.up.railway.app/api/v1/apartments/lc/reccomendation", {
@@ -109,7 +112,7 @@ useEffect(() => {
       <section 
         className="w-full flex flex-col items-center justify-center gap-8"
         style={{ 
-          backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6)), url(https://cdn.pixabay.com/photo/2017/08/06/18/01/city-2594707_1280.jpg)', 
+          backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4)), url(https://cdn.pixabay.com/photo/2017/08/06/18/01/city-2594707_1280.jpg)', 
           backgroundSize: 'cover', 
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
@@ -118,18 +121,18 @@ useEffect(() => {
       >
           <div className="w-full max-w-7xl mx-auto p-4">
             <div className="text-left mb-4 mt-20">
-              <h1 className="text-3xl font-bold">Найдите первым выгодную недвижимость в Алматы</h1>
+              <h1 className="text-3xl font-bold drop-shadow-lg">Найдите первым выгодную недвижимость в Алматы</h1>
               <p className="text-[#d7d7d7]">Делайте запросы более конкретными для лучших результатов</p>
             </div>
             <div className="bg-white">
               <Tabs defaultValue="buy">
-                <TabsList className="flex space-x-2  rounded-t-[16px] rounded-b-[0px]" style={{ backgroundColor: 'rgba(79, 79, 79, 0.8)' }}>
+                <TabsList className="flex space-x-2  rounded-t-[16px] rounded-b-[0px]" style={{ backgroundColor: 'rgba(32, 32, 32, 0.7)' }}>
                   <TabsTrigger value="buy" onClick={() => setType("buy")}>Купить</TabsTrigger>
                   <TabsTrigger value="rent" onClick={() => setType("rent")}>Снять</TabsTrigger>
                   <TabsTrigger value="daily" onClick={() => setType("daily")}>Посуточно</TabsTrigger>
                 </TabsList>
               </Tabs>
-              <div className="p-4 bg-[#333333] #8C8C8C py-6  px-4 rounded-b-[16px]">
+              <div className="p-4 bg-[#F9F9F9] #8C8C8C py-6  px-4 rounded-b-[16px] text-[#202020]">
                 <div className="flex flex-wrap gap-4">
                   <Select onValueChange={value => setType(value)}>
                     <SelectTrigger className="w-full sm:w-auto border-[0px]">
@@ -153,28 +156,52 @@ useEffect(() => {
                   </Select>
                   <DropdownMenu>
                     <DropdownMenuTrigger className="w-full sm:w-auto">
-                      <div className="flex items-center justify-between flex h-10 w-full items-center justify-between rounded-md border-[0px] border-[#CCCCCC] bg-white px-3 py-2 text-sm ring-offset-[#FFFFFF] placeholder:text-[#CCCCCC] focus:outline-none focus:ring-2 focus:ring-[#7D40E7] focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1">
+                      <div className="flex h-10 w-full items-center justify-between rounded-md border-[0px] border-[#CCCCCC] bg-white px-3 py-2 text-sm ring-offset-[#FFFFFF] placeholder:text-[#CCCCCC] focus:outline-none focus:ring-2 focus:ring-[#7D40E7] focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1">
                         <span>Цена</span>
                         <ChevronDownIcon className="h-4 w-4" />
                       </div>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-[300px]">
+                    <DropdownMenuContent className="w-[300px] md:w-[400px]">
                       <div className="grid gap-4 p-4">
                         <div className="grid grid-cols-2 gap-2">
-                          <Input
-                            type="number"
-                            value={minPrice}
-                            placeholder="От"
-                            className="w-full"
-                            onChange={e => setMinPrice(Number(e.target.value))}
-                          />
-                          <Input 
-                            type="number" 
-                            value={maxPrice}
-                            placeholder="До" 
-                            className="w-full" 
-                            onChange={e => setMaxPrice(Number(e.target.value))} 
-                          />
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700">От:</label>
+                            <div className="relative mt-1 rounded-md shadow-sm">
+                              <Input
+                                type="text"
+                                value={displayMinPrice}
+                                placeholder="от"
+                                className="w-full pr-10"
+                                onChange={e => {
+                                  const value2 = Number(e.target.value.replace(/\D/g,'')); // remove non-digits
+                                  setMinPrice(value2);
+                                  setDisplayMinPrice(formatPrice(value2.toString()));
+                                }}
+                              />
+                              <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                <span className="text-gray-500 sm:text-sm">〒</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700">До:</label>
+                            <div className="relative mt-1 rounded-md shadow-sm">
+                            <Input
+                              type="text"
+                              value={displayMaxPrice}
+                              placeholder="до"
+                              className="w-full pr-10"
+                              onChange={e => {
+                                const value = Number(e.target.value.replace(/\D/g,'')); // remove non-digits
+                                setMaxPrice(value);
+                                setDisplayMaxPrice(formatPrice(value.toString()));
+                              }}
+                            />
+                              <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                <span className="text-gray-500 sm:text-sm">〒</span>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </DropdownMenuContent>
