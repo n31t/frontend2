@@ -103,7 +103,7 @@ const ApartmentDetails = ({ params: { id } }: { params: { id: number } }) => {
                 {Object.entries(characteristics).map(([key, value], index) => (
                   <div key={index} className="flex justify-between text-gray-600">
                     <span className="text-[#8C8C8C]">{key}</span>
-                    <span className="font-medium">{value}</span>
+                    <span className="font-medium max-w-1/2">{value}</span>
                   </div>
                 ))}
               </div>
