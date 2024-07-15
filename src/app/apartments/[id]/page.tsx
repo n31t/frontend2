@@ -101,7 +101,7 @@ const ApartmentDetails = ({ params: { id } }: { params: { id: number } }) => {
               </div> */}
               <div className="grid gap-2">
                 {Object.entries(characteristics).map(([key, value], index) => (
-                  <div key={index} className="flex justify-between text-gray-600">
+                  <div key={index} className="flex justify-between text-gray-600 gap-24">
                     <span className="text-[#8C8C8C]">{key}</span>
                     <span className="font-medium max-w-1/2">{value}</span>
                   </div>
