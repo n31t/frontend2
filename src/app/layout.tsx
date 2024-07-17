@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Roboto } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react"
 import "./globals.css";
+import Head from "next/head";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,11 +22,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    <>
+      <Head>
+        <meta name="description" content="AI powered platform for apartment hunting in Almaty" />
+      </Head>
     <html lang="en">
+      <meta name="description" content="AI powered platform for apartment hunting in Almaty" />
       <body className={roboto.className}>
         {children}
         <Analytics />
         </body>
     </html>
+    </>
   );
 }
