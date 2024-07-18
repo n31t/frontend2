@@ -316,7 +316,7 @@ useEffect(() => {
                 <img
                   src={apartment.photos[1]}
                   alt="Property Image"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-fit: contain md:object-cover"
                 />
                 </Link>
               </div>
