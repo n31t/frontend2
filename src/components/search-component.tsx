@@ -314,15 +314,15 @@ useEffect(() => {
             
             <Card key={apartment.link} className="w-full border-[#CFCFCF] border-0 border-b-[0.5px] mx-auto grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-6 p-6 sm:p-8 md:p-10 rounded-xl"
             style={{ marginLeft: '0', paddingLeft: '0' }}>
-              <div className="relative overflow-hidden rounded-lg h-[150px] w-full md:h-[300px] md:w-[400px]">
+              {/* <div className="relative overflow-hidden rounded-lg h-[150px] w-full md:h-[300px] md:w-[400px]"> */}
                 <Carousel showArrows={true} showThumbs={false}>
                   {apartment.photos.map((photo, index) => (
                     <div key={index} className="object-cover">
-                      <img src={photo} alt={`Property Image ${index + 1}`} className="w-400px h-300px object-cover object-center"/>
+                      <img src={photo} alt={`Property Image ${index + 1}`} className="w-full h-full object-cover object-center"/>
                     </div>
                   ))}
                 </Carousel>
-              </div>
+              {/* </div> */}
               <div className="grid gap-4">
                 <div className="grid gap-4">
                   <div>
