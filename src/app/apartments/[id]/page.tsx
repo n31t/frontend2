@@ -83,7 +83,7 @@ const ApartmentDetails = ({ params: { id } }: { params: { id: number } }) => {
                   className="relative object-contain w-full h-full"
                 />
               </div>
-              <div className="flex overflow-x-auto py-2 gap-2">
+              <div className="md:w-[800px] flex overflow-x-auto py-2 gap-2">
                 {apartment.photos.map((photo, index) => (
                   <div key={index} className="flex-none">
                     <img
