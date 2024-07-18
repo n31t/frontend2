@@ -15,6 +15,9 @@ import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
 import { CarouselComponent } from "./carousel-component";
 import HintComponent from "./hint-component";
 
+import { Carousel } from 'react-responsive-carousel';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+
 interface Apartment {
   id: number;
   link: string;
@@ -225,7 +228,7 @@ useEffect(() => {
               <div className="my-10 md:my-0 flex items-center justify-start gap-6 overflow-x-auto">
                 <div className="flex items-center justify-start">
                   <img
-                    src="https://krisha.kz/static/frontend/images/landing/mobile/krisha-logo.png"
+                    src="https://nf-spotify-hw.s3.eu-north-1.amazonaws.com/img/krisha-logo.png"
                     width={35}
                     height={35}
                     alt="Krisha.kz Logo"
@@ -234,16 +237,16 @@ useEffect(() => {
                 </div>
                 <div className="flex items-center justify-start">
                   <img
-                    src="https://habrastorage.org/getpro/moikrug/uploads/company/100/007/101/9/logo/medium_a5416a751f7e73c461761b458b50c5d0.jpg"
+                    src="https://nf-spotify-hw.s3.eu-north-1.amazonaws.com/img/medium_a5416a751f7e73c461761b458b50c5d0.jpg"
                     width={35}
                     height={35}
-                    alt="Moikrug Logo"
+                    alt="Etagi Logo"
                     className=" overflow-hidden rounded-lg object-contain object-center opacity-100 hover:opacity-100 transition-opacity"
                   />
                 </div>
                 <div className="flex items-center justify-start">
                   <img
-                    src="https://www.kn.kz/favicon/android-chrome-256x256.png"
+                    src="https://nf-spotify-hw.s3.eu-north-1.amazonaws.com/img/android-chrome-256x256.png"
                     width={35}
                     height={35}
                     alt="Kn.kz Logo"
@@ -252,16 +255,16 @@ useEffect(() => {
                 </div>
                 <div className="flex items-center justify-start">
                   <img
-                    src="https://nedvizhka.kz/static/interface/logo_ned.svg"
-                    width={70}
+                    src="https://nf-spotify-hw.s3.eu-north-1.amazonaws.com/img/unnamed.webp"
+                    width={35}
                     height={35}
                     alt="Nedvizhka.kz Logo"
-                    className="aspect-[2/1] overflow-hidden rounded-lg object-contain object-center opacity-100 hover:opacity-100 transition-opacity"
+                    className=" overflow-hidden rounded-lg object-contain object-center opacity-100 hover:opacity-100 transition-opacity"
                   />
                 </div>
                 <div className="flex items-center justify-start">
                   <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdF6IDT4UFuXAFD4IF-iVJCRGk7hRnxvdP5Q&s"
+                    src="https://nf-spotify-hw.s3.eu-north-1.amazonaws.com/img/images.png"
                     width={35}
                     height={35}
                     alt="Logo"
@@ -270,7 +273,7 @@ useEffect(() => {
                 </div>
                 <div className="flex items-center justify-start">
                   <img
-                    src="https://avatars.dzeninfra.ru/get-zen_doc/271828/pub_65e2d2f2ad51546e2aa11191_65e2da3b25136a1f45a25642/scale_1200"
+                    src="https://nf-spotify-hw.s3.eu-north-1.amazonaws.com/img/scale_1200.jpeg"
                     width={70}
                     height={35}
                     alt="Logo"
@@ -312,13 +315,13 @@ useEffect(() => {
             <Card key={apartment.link} className="w-full border-[#CFCFCF] border-0 border-b-[0.5px] mx-auto grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-6 p-6 sm:p-8 md:p-10 rounded-xl"
             style={{ marginLeft: '0', paddingLeft: '0' }}>
               <div className="relative overflow-hidden rounded-lg h-[150px] w-full md:h-[200px] md:w-[400px]">
-              <Link href={`/apartments/${apartment.id}`} target="_blank" rel="noopener noreferrer">
-                <img
-                  src={apartment.photos[1]}
-                  alt="Property Image"
-                  className="w-full h-full object-cover"
-                />
-                </Link>
+                <Carousel showArrows={true} showThumbs={false}>
+                  {apartment.photos.map((photo, index) => (
+                    <div key={index}>
+                      <img src={photo} alt={`Property Image ${index + 1}`} className="w-full h-full object-cover" />
+                    </div>
+                  ))}
+                </Carousel>
               </div>
               <div className="grid gap-4">
                 <div className="grid gap-4">
