@@ -75,8 +75,12 @@ const ApartmentDetails = ({ params: { id } }: { params: { id: number } }) => {
                 <img
                   src={selectedPhoto || ''}
                   alt="Apartment"
-                  className="object-cover w-full h-full"
-                  style={{ objectPosition: 'center' }}
+                  className="absolute inset-0 object-cover w-full h-full blur-sm scale-105"
+                />
+                <img
+                  src={selectedPhoto || ''}
+                  alt="Apartment"
+                  className="relative object-contain w-full h-full"
                 />
               </div>
               <div className="flex overflow-x-auto py-2 gap-2">
