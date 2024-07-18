@@ -317,7 +317,7 @@ useEffect(() => {
               {/* <div className="relative overflow-hidden rounded-lg h-[150px] w-full md:h-[300px] md:w-[400px]"> */}
                 <Carousel showArrows={true} showThumbs={false} centerMode={true} width={400} >
                   {apartment.photos.map((photo, index) => (
-                    <div key={index} className="object-cover">
+                    <div key={index} className="object-cover h-[300px]">
                       <img src={photo} alt={`Property Image ${index + 1}`} className="w-full h-full object-cover object-center"/>
                     </div>
                   ))}
