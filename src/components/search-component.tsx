@@ -311,12 +311,12 @@ useEffect(() => {
             
             <Card key={apartment.link} className="w-full border-[#CFCFCF] border-0 border-b-[0.5px] mx-auto grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-6 p-6 sm:p-8 md:p-10 rounded-xl"
             style={{ marginLeft: '0', paddingLeft: '0' }}>
-              <div className="relative overflow-hidden rounded-lg" style={{ height: '200px', width: '400px' }}>
+              <div className="relative overflow-hidden rounded-lg h-[150px] w-full md:h-[200px] md:w-[400px]">
               <Link href={`/apartments/${apartment.id}`} target="_blank" rel="noopener noreferrer">
                 <img
                   src={apartment.photos[1]}
                   alt="Property Image"
-                  className=" w-4/5 md:w-full h-full object-cover"
+                  className="w-full h-full object-cover"
                 />
                 </Link>
               </div>
