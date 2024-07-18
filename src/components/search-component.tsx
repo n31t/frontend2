@@ -318,7 +318,7 @@ useEffect(() => {
                 <Carousel showArrows={true} showThumbs={false}>
                   {apartment.photos.map((photo, index) => (
                     <div key={index}>
-                      <img src={photo} alt={`Property Image ${index + 1}`} className="w-full h-full object-cover" />
+                      <img src={photo} alt={`Property Image ${index + 1}`} className="w-full h-full object-cover object-center" />
                     </div>
                   ))}
                 </Carousel>
