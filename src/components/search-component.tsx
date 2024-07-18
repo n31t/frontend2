@@ -16,7 +16,7 @@ import { CarouselComponent } from "./carousel-component";
 import HintComponent from "./hint-component";
 
 import { Carousel } from 'react-responsive-carousel';
-import "react-responsive-carousel/lib/styles/carousel.min.css";
+// import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 interface Apartment {
   id: number;
@@ -314,15 +314,11 @@ useEffect(() => {
             
             <Card key={apartment.link} className="w-full border-[#CFCFCF] border-0 border-b-[0.5px] mx-auto grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-6 p-6 sm:p-8 md:p-10 rounded-xl"
             style={{ marginLeft: '0', paddingLeft: '0' }}>
-              <div className="relative overflow-hidden rounded-lg w-full md:w-[400px] aspect-[4/3]">
+              <div className="relative overflow-hidden rounded-lg h-[150px] w-full md:h-[200px] md:w-[400px]">
                 <Carousel showArrows={true} showThumbs={false}>
                   {apartment.photos.map((photo, index) => (
-                    <div key={index} className="h-full">
-                      <img 
-                        src={photo} 
-                        alt={`Property Image ${index + 1}`} 
-                        className="w-full h-full object-cover"
-                      />
+                    <div key={index}>
+                      <img src={photo} alt={`Property Image ${index + 1}`} className="w-full h-full object-cover object-center" style={{ objectPosition: 'center' }} />
                     </div>
                   ))}
                 </Carousel>
