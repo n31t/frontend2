@@ -2,6 +2,7 @@ import React from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { Button } from "@/components/ui/button";
+import Link from 'next/link';
 
 interface ApartmentCarouselProps {
     apartments: Apartment[];
@@ -69,12 +70,14 @@ const ApartmentCarousel = ({ apartments }: ApartmentCarouselProps) => {
         >
           {apartments.map((apartment, index) => (
             <div key={index} className="p-2 bg-white rounded-lg shadow-md flex flex-col justify-between mx-2 h-64">
+            <Link href={`/apartments/${apartment.id}`} target="_blank" rel="noopener noreferrer">
               <img src={apartment.photos[0]} alt={`Apartment ${index + 1}`} className="w-full h-32 object-cover rounded-t-lg" />
               <div className="p-2">
                 <p className="text-xl font-semibold text-[#202020] truncate">{formatPrice(apartment.price)} ₸</p>
                 <p className="text-[14px] mt-1 text-[#828282] line-clamp-3">{apartment.floor}</p>
                 <p className="text-[12px] mt-1 text-[#8C8C8C] line-clamp-3">{apartment.location}</p>
               </div>
+              </Link>
             </div>
           ))}
         </Carousel>
