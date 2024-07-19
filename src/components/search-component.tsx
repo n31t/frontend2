@@ -17,6 +17,7 @@ import HintComponent from "./hint-component";
 
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import ApartmentCarousel from "./apartmentCarousel-component";
 
 interface Apartment {
   id: number;
@@ -36,7 +37,8 @@ interface Apartment {
 export function SearchComponent() {
   const [searchInput, setSearchInput] = useState("");
   const [apartments, setApartments] = useState<Apartment[]>([]);
-  // const [smallApartments, setSmallApartments] = useState<Apartment[]>([]);
+  const [mightLikeApartments, setMightLikeApartments] = useState<Apartment[]>([]);
+
   const [type, setType] = useState("buy");
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(100000000);
@@ -98,6 +100,7 @@ useEffect(() => {
       } else {
         console.error("Failed to fetch apartment recommendations");
       }
+      await fetchMightLikeApartments(searchInput);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -108,6 +111,57 @@ useEffect(() => {
   const formatPrice = (price: string) => {
     return new Intl.NumberFormat('ru-RU').format(Number(price));
   };
+
+  const fetchMightLikeApartments = async (prompt: string) => {
+    try {
+      const response = await fetch("https://backend-production-f116.up.railway.app/api/v1/apartments/lc/mightlike", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          prompt: prompt,
+          classify: type,
+          minPrice: minPrice,
+          maxPrice: maxPrice,
+          rooms: rooms,
+        }),
+      });
+  
+      if (response.ok) {
+        const recommendations = await response.json();
+        const detailedApartments = await Promise.all(
+          recommendations.map(async ({ link }: { link: string }) => {
+            const detailResponse = await fetch("https://backend-production-f116.up.railway.app/api/v1/apartments/find/link", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ link }),
+            });
+  
+            if (detailResponse.ok) {
+              return await detailResponse.json();
+            } else {
+              console.error(`Failed to fetch details for link: ${link}`);
+              return null;
+            }
+          })
+        );
+  
+        setMightLikeApartments(detailedApartments.filter(apartment => apartment !== null));
+      } else {
+        console.error("Failed to fetch 'might like' apartment recommendations");
+      }
+    } catch (error) {
+      console.error("Error fetching 'might like' data:", error);
+    }
+  };
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetchMightLikeApartments("Квартира свежий ремонт").then(() => setIsLoading(false));
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#FFFFFF] to-[#FFFFFF] text-[#ffffff]">
@@ -304,6 +358,7 @@ useEffect(() => {
                <h1 className="text-[#F36202] text-center">Загрузка{dots}</h1>
             </div>
           ) : (
+        <>
         <section className="container mx-auto pt-12 py-24 px-4 md:px-6 grid grid-cols-1 md:grid-cols-1 gap-8 ">
           <div className="w-full mx-auto  text-[#202020]">
             <h1 className="text-2xl font-bold mb-6 ">Предложенный ряд квартир:</h1>
@@ -356,20 +411,25 @@ useEffect(() => {
                     <Button>Посмотреть подробнее</Button>
                   </div>
                 </div> */}
-              </div>
-              
+              </div>      
             </Card>
-            
           ))}
         </section>
+        <section className="container mx-auto py-24 px-4 md:px-6">
+            <div className="w-full mx-auto  text-[#202020]">
+              <h1 className="text-2xl font-bold mb-6">Может заинтересовать:</h1>
+            </div>
+            <ApartmentCarousel apartments={mightLikeApartments} />
+        </section>
+        </>
+        
           )}
+
          {/* <section className="container mx-auto py-24 px-4 md:px-6">
           <div className="w-full mx-auto  text-[#202020]">
             <h1 className="text-2xl font-bold mb-6">Может заинтересовать:</h1>
           </div>
-          <div className="relative"> 
-            <CarouselComponent apartments={smallApartments} /> 
-          </div> 
+          <ApartmentCarousel />
         </section> */}
 
       </main>
