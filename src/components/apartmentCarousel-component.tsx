@@ -40,6 +40,10 @@ const responsive = {
   }
 };
 
+const formatPrice = (price: string) => {
+    return new Intl.NumberFormat('ru-RU').format(Number(price));
+  };
+
 // const apartments = Array(40).fill({
 //   id: 1,
 //   image: 'https://nf-spotify-hw.s3.eu-north-1.amazonaws.com/img/scale_1200.jpeg',
@@ -64,12 +68,12 @@ const ApartmentCarousel = ({ apartments }: ApartmentCarouselProps) => {
           itemClass="carousel-item"
         >
           {apartments.map((apartment, index) => (
-            <div key={index} className="p-2 bg-white rounded-lg shadow-md flex flex-col justify-between mx-2 h-54">
+            <div key={index} className="p-2 bg-white rounded-lg shadow-md flex flex-col justify-between mx-2 h-64">
               <img src={apartment.photos[0]} alt={`Apartment ${index + 1}`} className="w-full h-32 object-cover rounded-t-lg" />
               <div className="p-2">
-                <p className="text-xl font-semibold text-[#202020] truncate">{apartment.price} ₸</p>
-                <p className="text-[14px] mt-1 text-[#828282]">{apartment.floor}</p>
-                <p className="text-[12px] mt-1 text-[#8C8C8C]">{apartment.location}</p>
+                <p className="text-xl font-semibold text-[#202020] truncate">{formatPrice(apartment.price)} ₸</p>
+                <p className="text-[14px] mt-1 text-[#828282] line-clamp-3">{apartment.floor}</p>
+                <p className="text-[12px] mt-1 text-[#8C8C8C] line-clamp-3">{apartment.location}</p>
               </div>
             </div>
           ))}
