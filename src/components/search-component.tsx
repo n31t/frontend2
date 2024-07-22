@@ -178,7 +178,7 @@ useEffect(() => {
       >
           <div className="w-full max-w-7xl mx-auto p-4">
             <div className="text-left mb-4 mt-0 md:mt-20">
-              <h1 className="text-3xl font-bold drop-shadow-lg">Найдите первым выгодную недвижимость в Алматы</h1>
+              <h1 className="text-4xl md:text-3xl font-bold drop-shadow-lg">Найдите первым выгодную недвижимость в Алматы</h1>
               <p className="text-[#d7d7d7]">Делайте запросы более конкретными для лучших результатов</p>
             </div>
             <div className="bg-white">
@@ -273,11 +273,27 @@ useEffect(() => {
                 </div>
               </div>
             </div>
-            <div className="text-right mb-0 py-4">
-            <Link href="#apartamentsList">
+            <div className="text-right mb-0 ">
+              <div className="md:flex w-full md:pt-4">
+                <div className="w-full text-left">
+                  <div className="inline-block bg-[#d9534f] bg-opacity-75 text-white px-2 py-2 text-[0px] md:text-sm rounded-r-lg z-10 ribbon font-thin">
+                    Информация о квартирах берется с достоверных источников: &nbsp;&nbsp;
+                  </div>
+                </div>
+                {/* <p className="text-[0px] md:w-full md:text-[14px] text-[#ffffff] text-left font-bold">
+                Информация о квартирах берется с достоверных источников:
+                </p> */}
+                <Link href="#apartamentsList">
             <Button onClick={handleSearch} className="px-8 py-4 w-full sm:w-auto ml-auto md:ml-2 text-[15px] bg-[#FF7024] hover:bg-[#CB5200]">
             {isLoading ? 'Загрузка...' : 'Найти'}
             </Button></Link>
+            
+              </div>
+            
+            {/* <Link href="#apartamentsList">
+            <Button onClick={handleSearch} className="px-8 py-4 w-full sm:w-auto ml-auto md:ml-2 text-[15px] bg-[#FF7024] hover:bg-[#CB5200]">
+            {isLoading ? 'Загрузка...' : 'Найти'}
+            </Button></Link> */}
             <div className="w-full flex justify-start items-center">
               <div className="my-10 md:my-0 flex items-center justify-start gap-6 overflow-x-auto">
                 <div className="flex items-center justify-start">
@@ -337,7 +353,7 @@ useEffect(() => {
               </div>
             </div>
           </div>
-          <p className="w-full text-[12px] text-[#d7d7d7] text-left">
+          <p className="w-full text-[12px] md:text-[0px] text-[#d7d7d7] text-left">
           Мы получаем информацию о заявках на продажу и предложениях квартир из доверенных ресурсов. Мы не несем ответственности за точность размещенной информации на этих платформах.
           </p>
           <div className="w-full md:flex mt-4 gap-8">

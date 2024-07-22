@@ -29,3 +29,12 @@ html {
   }
 }
 
+.ribbon {
+  background-color: rgba(217, 83, 79, 0.75); /* Transparent red */
+  color: white;
+  padding: 2px 8px;
+
+  border-radius: 0 0.375rem 0.375rem 0; /* rounded-r-lg */
+  z-index: 10;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 16px) 100%, 0 100%);
+}

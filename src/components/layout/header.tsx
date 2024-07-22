@@ -4,10 +4,10 @@ import { Button } from "../ui/button";
 
 export function Header() {
   return (
-    <header className="flex shadow-lg py-4 px-4 sm:px-10 bg-white min-h-[100px] tracking-wide relative z-50">
+    <header className="flex shadow-lg md:py-2 px-4 sm:px-10 bg-white min-h-[80px] md:min-h-[100px] tracking-wide relative z-50">
       <div className="flex flex-wrap items-center justify-between gap-4 w-full">
         <Link href="/" className="lg:absolute max-lg:left-10 lg:top-2/4 lg:left-2/4 lg:-translate-x-1/2 lg:-translate-y-1/2">
-          <img src="https://nf-spotify-hw.s3.eu-north-1.amazonaws.com/img/warmhometext2.png" alt="logo" className="h-24" />
+          <img src="https://nf-spotify-hw.s3.eu-north-1.amazonaws.com/img/warmhometext2.png" alt="logo" className="h-14 md:h-24" />
         </Link>
 
         <div id="collapseMenu" className="max-lg:hidden lg:!block max-lg:w-full max-lg:fixed max-lg:before:fixed max-lg:before:bg-black max-lg:before:opacity-50 max-lg:before:inset-0 max-lg:before:z-50">
@@ -37,7 +37,7 @@ export function Header() {
           </ul>
         </div>
 
-        {/* <div className="flex items-center ml-auto space-x-6">
+        {/* <div className="flex items-center ml-auto space-x-3 md:space-x-6">
           <Button className="px-4 py-2 text-sm rounded-sm font-bold text-[#FFFFFF] border-2 border-[#ff851a] bg-[#ff851a] transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[#007bff]">
             <Link href="#" className="text-[#ffffff] transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[#ff851a]">Войти</Link>
           </Button>
