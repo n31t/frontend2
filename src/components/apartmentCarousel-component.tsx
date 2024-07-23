@@ -73,7 +73,7 @@ const ApartmentCarousel = ({ apartments }: ApartmentCarouselProps) => {
             <Link href={`/apartments/${apartment.id}`} target="_blank" rel="noopener noreferrer">
               <img src={apartment.photos[0]} alt={`Apartment ${index + 1}`} className="w-full h-32 object-cover rounded-t-lg" />
               <div className="p-2">
-                <p className="text-xl font-semibold text-[#202020] truncate">{formatPrice(apartment.price)} ₸</p>
+                <p className="text-xl font-semibold text-[#202020] truncate">{formatPrice(apartment.price)} ₸{apartment.type === 'rent' ? '/мес.' : apartment.type === 'daily' ? '/сутки' : ''}</p>
                 <p className="text-[14px] mt-1 text-[#828282] line-clamp-3">{apartment.floor}</p>
                 <p className="text-[12px] mt-1 text-[#8C8C8C] line-clamp-3">{apartment.location}</p>
               </div>

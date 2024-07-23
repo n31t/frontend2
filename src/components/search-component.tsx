@@ -403,7 +403,7 @@ useEffect(() => {
                       <span>{apartment.location}</span>
                     </p>
                     <div className="text-xl font-bold text-[#202020] mb-4">
-                      {formatPrice(apartment.price)} 〒 {apartment.type === 'rent' ? '/мес.' : apartment.type === 'daily' ? '/сутки' : ''}
+                      {formatPrice(apartment.price)} 〒{apartment.type === 'rent' ? '/мес.' : apartment.type === 'daily' ? '/сутки' : ''}
                     </div>
                     <p className="text-[#8D8D8D] text-sm mb-6">
                     {apartment.description.substring(0, 139)}...

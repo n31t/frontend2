@@ -100,7 +100,7 @@ const ApartmentDetails = ({ params: { id } }: { params: { id: number } }) => {
           <div className="bg-white p-6 rounded-xl shadow-md">
             <div className="grid gap-4">
               <h1 className="text-3xl font-bold">{apartment.floor}</h1>
-              <span className="text-4xl font-bold">{formatPrice(apartment.price)} 〒 {apartment.type === 'rent' ? '/мес.' : apartment.type === 'daily' ? '/сутки' : ''}</span>
+              <span className="text-4xl font-bold">{formatPrice(apartment.price)} 〒{apartment.type === 'rent' ? '/мес.' : apartment.type === 'daily' ? '/сутки' : ''}</span>
               <div className="flex items-center gap-2">
                 <span>{apartment.location}</span>
               </div>
