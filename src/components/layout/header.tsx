@@ -1,3 +1,4 @@
+'use client'
 import { JapaneseYenIcon, UserCircle } from "lucide-react";
 import Link from "next/link";
 import { Button } from "../ui/button";
@@ -5,6 +6,7 @@ import { useAuth } from "@/app/context/context";
 
 export function Header() {
   // const { isLoggedIn } = useAuth();
+  const { isLoggedIn } = useAuth();
 
   return (
     <header className="flex shadow-lg md:py-2 px-4 sm:px-10 bg-white min-h-[80px] md:min-h-[100px] tracking-wide relative z-50">
@@ -41,17 +43,17 @@ export function Header() {
         </div>
 
         <div className="flex items-center ml-auto space-x-3 md:space-x-6">
-        {/* {isLoggedIn ? (
+        {isLoggedIn ? (
           <Link href="/profile">
             <UserCircle className="w-8 h-8 text-[#382AAF] hover:text-[#CB5200] transition-colors duration-300" />
           </Link>
-        ) : ( */}
+        ) : (
           <Link href="/login">
             <Button className="px-4 py-2 text-sm rounded-sm font-bold text-[#FFFFFF] border-2 border-[#382AAF] bg-[#382AAF] transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[#007bff]">
               <span className="text-[#ffffff] transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[#382AAF]">Войти</span>
             </Button>
           </Link>
-        {/* )} */}
+        )}
           {/* <Link href="/register">
           <Button className="px-4 py-2 text-sm rounded-sm font-bold text-[#FFFFFF] border-2 border-[#4A00E0] bg-[#4A00E0] transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[#4A00E0]">
             Регистрация
