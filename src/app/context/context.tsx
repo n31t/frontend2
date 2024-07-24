@@ -18,6 +18,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
     if (accessToken && refreshToken) {
       try {
+        console.log(accessToken, refreshToken);
         const response = await fetch('https://backend-production-f116.up.railway.app/api/v1/check-tokens', {
           method: 'POST',
           headers: {
@@ -25,7 +26,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           },
           body: JSON.stringify({ accessToken, refreshToken }),
         });
-
+        console.log(response);
         if (response.ok) {
           const result = await response.json();
           localStorage.setItem('accessToken', result.accessToken);
