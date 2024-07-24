@@ -3,10 +3,18 @@ import { JapaneseYenIcon, UserCircle } from "lucide-react";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { useAuth } from "@/app/context/context";
+import { useEffect } from "react";
 
 export function Header() {
-  // const { isLoggedIn } = useAuth();
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, checkAuthStatus } = useAuth();
+
+  useEffect(() => {
+    checkAuthStatus();
+  }, []);
+
+  useEffect(() => {
+    console.log('Header isLoggedIn:', isLoggedIn);
+  }, [isLoggedIn]);
 
   return (
     <header className="flex shadow-lg md:py-2 px-4 sm:px-10 bg-white min-h-[80px] md:min-h-[100px] tracking-wide relative z-50">
