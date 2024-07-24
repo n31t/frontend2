@@ -1,5 +1,4 @@
 "use client";
-
 import React, { createContext, useState, useEffect, useContext, ReactNode } from 'react';
 
 interface AuthContextType {
@@ -19,70 +18,41 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
     if (accessToken && refreshToken) {
       try {
-        const response = await fetch('/api/auth', {
+        const response = await fetch('https://backend-production-f116.up.railway.app/api/v1/check-tokens', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ action: 'verifyJwt', token: accessToken }),
+          body: JSON.stringify({ accessToken, refreshToken }),
         });
 
-        const { valid } = await response.json();
-
-        if (valid) {
+        if (response.ok) {
+          const result = await response.json();
+          localStorage.setItem('accessToken', result.accessToken);
+          localStorage.setItem('refreshToken', result.refreshToken);
           setIsLoggedIn(true);
         } else {
-          // Token has expired, try to refresh
-          await handleTokenExpiration();
+          // If token check fails, log the user out
+          await handleLogout();
         }
       } catch (error) {
-        console.error("Error verifying token:", error);
-        setIsLoggedIn(false);
+        console.error("Error checking tokens:", error);
+        await handleLogout();
       }
     } else {
       setIsLoggedIn(false);
     }
   };
 
-  const handleTokenExpiration = async () => {
-    const refreshToken = localStorage.getItem('refreshToken');
-    if (!refreshToken) {
-      setIsLoggedIn(false);
-      return;
-    }
-
-    try {
-      const response = await fetch('/api/auth', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ action: 'refreshToken', refreshToken }),
-      });
-
-      if (response.ok) {
-        const { accessToken, refreshToken } = await response.json();
-        localStorage.setItem('accessToken', accessToken);
-        localStorage.setItem('refreshToken', refreshToken);
-        setIsLoggedIn(true);
-      } else {
-        // If refresh fails, log the user out
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        setIsLoggedIn(false);
-      }
-    } catch (error) {
-      console.error("Error refreshing token:", error);
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
-      setIsLoggedIn(false);
-    }
+  const handleLogout = async () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    setIsLoggedIn(false);
   };
 
   useEffect(() => {
     checkAuthStatus();
     window.addEventListener('storage', checkAuthStatus);
-
     return () => {
       window.removeEventListener('storage', checkAuthStatus);
     };
