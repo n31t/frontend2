@@ -5,6 +5,9 @@ import axiosInstance from '@/components/utils/axiosInstance';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
+import { useClerk, SignInButton } from "@clerk/nextjs";
+// import GoogleLoginButton from '@/components/auth/google-btn-component';
+
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -38,16 +41,27 @@ export default function LoginPage() {
           
           {error && <p style={{color: '#EF4444', marginBottom: '1rem'}}>{error}</p>}
           
-          <a style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', padding: '1rem 0', marginBottom: '1.5rem', fontSize: '0.875rem', fontWeight: '500', transition: 'all 0.3s', borderRadius: '1rem', color: '#111827', backgroundColor: '#D1D5DB', cursor: 'pointer'}}>
+          {/* <a style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', padding: '1rem 0', marginBottom: '1.5rem', fontSize: '0.875rem', fontWeight: '500', transition: 'all 0.3s', borderRadius: '1rem', color: '#111827', backgroundColor: '#D1D5DB', cursor: 'pointer'}}>
             <img style={{height: '1.25rem', marginRight: '0.5rem'}} src="https://raw.githubusercontent.com/Loopple/loopple-public-assets/main/motion-tailwind/img/logos/logo-google.png" alt="" />
             Войти через Google
-          </a>
+          </a> */}
+          {/* <GoogleLoginButton /> */}
+          {/* <SignInButton mode="modal">
+            <button className="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+                <img 
+                src="https://raw.githubusercontent.com/Loopple/loopple-public-assets/main/motion-tailwind/img/logos/logo-google.png" 
+                alt="Google logo" 
+                className="w-5 h-5 mr-2"
+                />
+                Войти через Google
+            </button>
+            </SignInButton> */}
           
-          <div style={{display: 'flex', alignItems: 'center', marginBottom: '0.75rem'}}>
+          {/* <div style={{display: 'flex', alignItems: 'center', marginBottom: '0.75rem'}}>
             <hr style={{height: '0', borderBottom: '1px solid #6B7280', flexGrow: 1}} />
             <p style={{margin: '0 1rem', color: '#4B5563'}}>или</p>
             <hr style={{height: '0', borderBottom: '1px solid #6B7280', flexGrow: 1}} />
-          </div>
+          </div> */}
           
           <label htmlFor="email" style={{marginBottom: '0.5rem', fontSize: '0.875rem', textAlign: 'start', color: '#111827'}}>Email*</label>
           <input 

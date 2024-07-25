@@ -1,16 +1,19 @@
 "use client";
 import React, { createContext, useState, useEffect, useContext, ReactNode } from 'react';
+import { ClerkProvider, SignedIn, SignedOut, UserButton, useUser } from "@clerk/nextjs";
 
 interface AuthContextType {
   isLoggedIn: boolean;
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
   checkAuthStatus: () => Promise<void>;
+  user: any; // Add this line to include Clerk user
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { user } = useUser(); // Add this line to get Clerk user
 
   const checkAuthStatus = async () => {
     const accessToken = localStorage.getItem('accessToken');
@@ -33,6 +36,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         } else {
           // If token check fails, log the user out
           await handleLogout();
+        }
+        if (user) {
+          setIsLoggedIn(true);
         }
       } catch (error) {
         console.error("Error checking tokens:", error);
@@ -58,9 +64,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, checkAuthStatus }}>
-      {children}
-    </AuthContext.Provider>
+    // <ClerkProvider>
+      <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, checkAuthStatus, user }}>
+        {children}
+      </AuthContext.Provider>
+    // </ClerkProvider>
   );
 };
 

@@ -3,6 +3,7 @@ import { Inter, Roboto } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react"
 import "./globals.css";
 import { AuthProvider } from "./context/context";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,12 +25,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <meta name="description" content="AI powered platform for apartment hunting in Almaty" />
+      <ClerkProvider>
       <AuthProvider>
       <body className={roboto.className}>
         {children}
         <Analytics />
         </body>
       </AuthProvider>
+      </ClerkProvider>
     </html>
   );
 }
