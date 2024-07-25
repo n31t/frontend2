@@ -51,7 +51,7 @@ const Profile: React.FC = () => {
         e.preventDefault();
         setIsSaving(true);
         try {
-            const token = localStorage.getItem('refreshToken');
+            const token = localStorage.getItem('accessToken');
             if (!token) {
                 throw new Error('No token found');
             }
@@ -68,6 +68,9 @@ const Profile: React.FC = () => {
 
     if (isLoading) {
         return <div className="loading">Loading...</div>;
+    }
+    if (isSaving) {
+        return <div className="loading">Saving...</div>;
     }
 
 //   if (!user) return <div className='w-full, h-screen'>Loading...</div>;
@@ -241,15 +244,7 @@ const Profile: React.FC = () => {
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label htmlFor="email">Ваш email</label>
-                    <input 
-                        type="email" 
-                        id="email" 
-                        name="email"
-                        value={user?.email || ''}
-                        onChange={handleInputChange}
-                        placeholder="your.email@mail.com" 
-                        required 
-                    />
+                    <div className="email-display">{user?.email}</div>
                 </div>
                 <div className="form-group">
                     <label htmlFor="surname">Ваша Фамилия</label>
@@ -259,7 +254,7 @@ const Profile: React.FC = () => {
                         name="surname"
                         value={user?.surname || ''}
                         onChange={handleInputChange}
-                        placeholder="Your surname" 
+                        placeholder="Введите вашу реальную Фамилию" 
                         required 
                     />
                 </div>
@@ -271,7 +266,7 @@ const Profile: React.FC = () => {
                         name="name"
                         value={user?.name || ''}
                         onChange={handleInputChange}
-                        placeholder="Your name" 
+                        placeholder="Введите ваше реальное Имя" 
                         required 
                     />
                 </div>
@@ -283,7 +278,7 @@ const Profile: React.FC = () => {
                         name="phoneNumber"
                         value={user?.phoneNumber || ''}
                         onChange={handleInputChange}
-                        placeholder="Your phone number" 
+                        placeholder="+77084652675" 
                         required 
                     />
                 </div>
@@ -294,11 +289,11 @@ const Profile: React.FC = () => {
                         name="smallDescription"
                         value={user?.smallDescription || ''}
                         onChange={handleInputChange}
-                        placeholder="Write your bio here..."
+                        placeholder="Напишите нужную информацию о себе для арендодателей"
                     ></textarea>
                 </div>
                 <div className="save-button">
-                    <button type="submit">Save</button>
+                    <button type="submit">Сохранить</button>
                 </div>
             </form>
         </div>
@@ -307,7 +302,7 @@ const Profile: React.FC = () => {
                 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap');
 
                 body {
-                    font-family: 'Plus Jakarta Sans', sans-serif;
+
                     background-color: white;
                     color: #161931;
                     margin: 0;
@@ -438,6 +433,14 @@ const Profile: React.FC = () => {
                 }
                 .save-button button:hover {
                     background-color: #CB5200;
+                }
+                .email-display {
+                    padding: 10px;
+                    font-size: 14px;
+                    color: #1a202c;
+                    background-color: #f7fafc;
+                    border: 1px solid #cbd5e0;
+                    border-radius: 10px;
                 }
                 @media (min-width: 768px) {
                     .container {
