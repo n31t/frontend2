@@ -26,7 +26,7 @@ const Profile: React.FC = () => {
     const fetchUserInfo = async () => {
         setIsLoading(true);
         try {
-            const token = localStorage.getItem('refreshToken');
+            const token = localStorage.getItem('accessToken');
             if (!token) {
                 throw new Error('No token found');
             }
