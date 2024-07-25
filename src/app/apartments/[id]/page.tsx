@@ -51,7 +51,16 @@ const ApartmentDetails = ({ params: { id } }: { params: { id: number } }) => {
   }, [id]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+    <Header />
+    <div id="apartamentsList" className="mt-10 mx-auto">
+    <div className="loader mx-auto mt-40"></div>
+    <h1 className="text-[#F36202] text-center h-screen">Загрузка...</h1>
+ </div>
+    <Footer />
+ </div>
+  )
   }
 
   if (!apartment) {

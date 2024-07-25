@@ -19,6 +19,16 @@ const Profile: React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [isSaving, setIsSaving] = useState<boolean>(false);
 
+    const [dots, setDots] = useState('');
+
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setDots((prevDots) => (prevDots.length < 3 ? prevDots + '.' : ''));
+      }, 500); // Change dots every 500ms
+    
+      return () => clearInterval(interval); // Clean up on component unmount
+    }, []);
+
     useEffect(() => {
         fetchUserInfo();
     }, []);
@@ -67,10 +77,29 @@ const Profile: React.FC = () => {
     };
 
     if (isLoading) {
-        return <div className="loading">Loading...</div>;
+        return (
+            // <div style={{
+            //   display: 'flex',
+            //   alignItems: 'center',
+            //   justifyContent: 'center',
+            //   height: '100vh',
+            //   fontSize: '24px',
+            //   fontWeight: 600,
+            //   color: '#FF7024',
+            // }}>
+            //   Loading...
+            // </div>
+            <div id="apartamentsList" className="mt-10 mx-auto">
+               <div className="loader mx-auto mt-40"></div>
+               <h1 className="text-[#F36202] text-center h-screen">Загрузка{dots}</h1>
+            </div>
+          );
     }
     if (isSaving) {
-        return <div className="loading">Saving...</div>;
+        <div id="apartamentsList" className="mt-10 mx-auto">
+               <div className="loader mx-auto mt-40"></div>
+               <h1 className="text-[#F36202] text-center h-screen">Сохранение{dots}</h1>
+            </div>
     }
 
 //   if (!user) return <div className='w-full, h-screen'>Loading...</div>;
@@ -442,6 +471,7 @@ const Profile: React.FC = () => {
                     border: 1px solid #cbd5e0;
                     border-radius: 10px;
                 }
+
                 @media (min-width: 768px) {
                     .container {
                         flex-direction: row;
