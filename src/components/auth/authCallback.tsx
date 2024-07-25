@@ -12,6 +12,7 @@
 //     async function handleCallback() {
 //       if (!signIn) return;
 //       try {
+  
 //         // Attempt to complete the sign-in process
 //         const result = await signIn.attemptFirstFactor({
 //           strategy: "oauth_google" as any, // Type assertion to bypass TypeScript error
