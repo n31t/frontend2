@@ -36,7 +36,9 @@ const ApartmentDetails = ({ params: { id } }: { params: { id: number } }) => {
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ address: apartment.location }),
+            body: JSON.stringify({ 
+              address: apartment.location,
+              characteristics: apartment.characteristics }),
           });
           const data = await response.json();
           console.log(data);
