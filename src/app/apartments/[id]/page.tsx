@@ -39,6 +39,7 @@ const ApartmentDetails = ({ params: { id } }: { params: { id: number } }) => {
             body: JSON.stringify({ address: apartment.location }),
           });
           const data = await response.json();
+          console.log(data);
           if (data && data.response && data.response.GeoObjectCollection.featureMember.length > 0) {
             const coordinatesStr = data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos;
             const coordinatesArray = coordinatesStr.split(' ').map(Number);
