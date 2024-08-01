@@ -1,10 +1,23 @@
 "use client";
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { ExternalLinkIcon } from 'lucide-react';
+import { ExternalLinkIcon, InfoIcon } from 'lucide-react';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
+import { FaWhatsapp } from 'react-icons/fa';
+import axiosInstance from '@/components/utils/axiosInstance';
+
+interface User {
+  id: number;
+  email: string;
+  username: string | null;
+  phoneNumber: string | null;
+  name: string | null;
+  surname: string | null;
+  age: number | null;
+  smallDescription: string | null;
+}
 
 interface Apartment {
   id: number;
@@ -25,6 +38,63 @@ const ApartmentDetails = ({ params: { id } }: { params: { id: number } }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
   const [coordinates, setCoordinates] = useState<[number, number] | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [dialogMessage, setDialogMessage] = useState('');
+
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    fetchUserInfo();
+  }, []);
+
+  const fetchUserInfo = async () => {
+      setIsLoading(true);
+      try {
+          const token = localStorage.getItem('accessToken');
+          if (!token) {
+              throw new Error('No token found');
+          }
+          const response = await axiosInstance.post('userId-by-token', { token });
+          const id = response.data.id;
+          const { data } = await axiosInstance.get<User>(`/users/${id}`);
+          setUser(data);
+      } catch (error) {
+          console.error('Error fetching user info:', error);
+      } finally {
+          setIsLoading(false);
+      }
+  };
+
+  const checkUserRequirements = () => {
+    if(user?.phoneNumber && user?.phoneNumber.replace(/\D/g, '').length !== 11 && user?.name && user?.surname && user?.smallDescription) {
+      return true
+    }
+    return false; 
+  };
+
+  const handleAutocontact = () => {
+    if (apartment?.number.replace(/\D/g, '').length !== 11) {
+      setDialogMessage('Арендодатель скрыл номер');
+      setIsDialogOpen(true);
+    } else if (checkUserRequirements()) {
+      console.log("Initiating WhatsApp autocontact");
+      axiosInstance.post('/whats/add', { apartment, user })
+        .then(response => {
+          console.log('WhatsApp contact initiated', response.data);
+          setDialogMessage('Сообщение отправлено! Арендодатель получил ваш контакт и свяжется с вами в ближайшее время.');
+          setIsDialogOpen(true);
+        })
+        .catch(error => {
+          console.error('Error initiating WhatsApp contact', error);
+          setDialogMessage('Произошла ошибка при отправке сообщения. Попробуйте позже.');
+          setIsDialogOpen(true);
+        });
+    } else {
+      setDialogMessage('ОШИБКА АВТОКОНТАКТА!<br>Для использования функции автоконтакта необходимо:<br>- Войти в систему<br>- Заполнить все обязательные поля профиля, включая ваш номер телефона на котором у вас зарегистрирован WhatsApp<br><br>Личные данные из профиля нужны для автоконтакта с арендодателем, чтобы он смог связаться с вами позже<br><br>Пожалуйста, выполните эти действия и повторите попытку.');
+      setIsDialogOpen(true);
+    }
+  };
 
   useEffect(() => {
     if (apartment && apartment.location) {
@@ -160,6 +230,24 @@ const ApartmentDetails = ({ params: { id } }: { params: { id: number } }) => {
                 <ExternalLinkIcon className="w-4 h-4" />
                 Страница с оригиналом
               </Link>
+              <div className="relative">
+              <button 
+                onClick={handleAutocontact} 
+                className="bg-[#25D366] hover:bg-green-600 text-[#FFFFFF] px-4 py-2 rounded-lg flex items-center gap-2"
+                onMouseEnter={() => setShowTooltip(true)}
+                onMouseLeave={() => setShowTooltip(false)}
+              >
+                <FaWhatsapp className="mr-2 w-4" />
+                Автоконтакт по WhatsApp
+                {/* <InfoIcon className="w-4 h-4" /> */}
+              </button>
+              {showTooltip && (
+                <div className="absolute bottom-full left-0 mb-2 p-2 bg-[#FFFFFF] text-white text-sm rounded shadow-lg">
+                  Автоматически отправляет сообщение владельцу квартиры через WhatsApp
+                </div>
+              )}
+              </div>
+              
             </div>
           </div>
         </section>
@@ -180,6 +268,23 @@ const ApartmentDetails = ({ params: { id } }: { params: { id: number } }) => {
         </section>
       </div>
       <Footer />
+      {isDialogOpen && (
+        <div className="fixed inset-0 flex items-center justify-center" style={{backgroundColor: 'rgba(222, 221, 221, 0.95)'}}>
+          <div className="p-6 rounded-lg" style={{backgroundColor: '#ffffff', maxWidth: '500px'}}>
+            <h2 className="text-xl font-bold mb-4" style={{color: '#333333'}}>Информация</h2>
+            <p dangerouslySetInnerHTML={{ __html: dialogMessage }}></p>
+            <button 
+              onClick={() => setIsDialogOpen(false)}
+              className="mt-4 px-4 py-2 rounded-lg"
+              style={{backgroundColor: '#FF7024', color: '#ffffff', cursor: 'pointer'}}
+              onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#CB5200'}
+              onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#FF7024'}
+            >
+              Закрыть
+            </button>
+          </div>
+        </div>
+        )}
     </div>
   );
 };
@@ -402,6 +507,10 @@ export default ApartmentDetails;
 // import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
 // import { Header } from '@/components/layout/header';
 // import { Footer } from '@/components/layout/footer';
+// import { InfoIcon } from 'lucide-react';
+// import { FaWhatsapp } from 'react-icons/fa';
+// import axiosInstance from '@/components/utils/axiosInstance';
+
 
 // interface Apartment {
 //   id: number;
@@ -417,11 +526,80 @@ export default ApartmentDetails;
 //   type: string;
 // }
 
+// interface User {
+//   id: number;
+//   email: string;
+//   username: string | null;
+//   phoneNumber: string | null;
+//   name: string | null;
+//   surname: string | null;
+//   age: number | null;
+//   smallDescription: string | null;
+// }
+
 // const ApartmentDetails = ({ params: { id } }: { params: { id: number } }) => {
 //   const [apartment, setApartment] = useState<Apartment | null>(null);
 //   const [isLoading, setIsLoading] = useState(true);
 //   const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
 //   const [coordinates, setCoordinates] = useState<[number, number] | null>(null);
+
+//   const [isDialogOpen, setIsDialogOpen] = useState(false);
+//   const [showTooltip, setShowTooltip] = useState(false);
+//   const [dialogMessage, setDialogMessage] = useState('');
+
+//   const [user, setUser] = useState<User | null>(null);
+
+//   useEffect(() => {
+//       fetchUserInfo();
+//   }, []);
+
+//   const fetchUserInfo = async () => {
+//       setIsLoading(true);
+//       try {
+//           const token = localStorage.getItem('accessToken');
+//           if (!token) {
+//               throw new Error('No token found');
+//           }
+//           const response = await axiosInstance.post('userId-by-token', { token });
+//           const id = response.data.id;
+//           const { data } = await axiosInstance.get<User>(`/users/${id}`);
+//           setUser(data);
+//       } catch (error) {
+//           console.error('Error fetching user info:', error);
+//       } finally {
+//           setIsLoading(false);
+//       }
+//   };
+
+//   const checkUserRequirements = () => {
+//     if(user?.phoneNumber && user?.phoneNumber.replace(/\D/g, '').length !== 11 && user?.name && user?.surname && user?.smallDescription) {
+//       return true
+//     }
+//     return false; // For demonstration, always return false
+//   };
+
+//   const handleAutocontact = () => {
+//     if (apartment?.number.replace(/\D/g, '').length !== 11) {
+//       setDialogMessage('Арендодатель скрыл номер');
+//       setIsDialogOpen(true);
+//     } else if (checkUserRequirements()) {
+//       console.log("Initiating WhatsApp autocontact");
+//       axiosInstance.post('/whats/add', { apartment, user })
+//         .then(response => {
+//           console.log('WhatsApp contact initiated', response.data);
+//           setDialogMessage('Сообщение отправлено! Арендодатель получил ваш контакт и свяжется с вами в ближайшее время.');
+//           setIsDialogOpen(true);
+//         })
+//         .catch(error => {
+//           console.error('Error initiating WhatsApp contact', error);
+//           setDialogMessage('Произошла ошибка при отправке сообщения. Попробуйте позже.');
+//           setIsDialogOpen(true);
+//         });
+//     } else {
+//       setDialogMessage('ОШИБКА АВТОКОНТАКТА!<br>Для использования функции автоконтакта необходимо:<br>- Войти в систему<br>- Заполнить все обязательные поля профиля, включая ваш номер телефона на котором у вас зарегистрирован WhatsApp<br><br>Личные данные из профиля нужны для автоконтакта с арендодателем, чтобы он смог связаться с вами позже<br><br>Пожалуйста, выполните эти действия и повторите попытку.');
+//       setIsDialogOpen(true);
+//     }
+//   };
 
 //   const testApartment: Apartment = {
 //     id: 11219923,
@@ -533,6 +711,23 @@ export default ApartmentDetails;
 //                 Перейти к объявлению <ExternalLinkIcon className="ml-1 w-4 h-4" />
 //               </p>
 //             </Link>
+//             <div className="relative">
+//               <button 
+//                 onClick={handleAutocontact} 
+//                 className="bg-[#25D366] hover:bg-green-600 text-[#FFFFFF] px-4 py-2 rounded-lg flex items-center gap-2"
+//                 onMouseEnter={() => setShowTooltip(true)}
+//                 onMouseLeave={() => setShowTooltip(false)}
+//               >
+//                 <FaWhatsapp className="mr-2 w-4" />
+//                 Автоконтакт по WhatsApp
+//                 {/* <InfoIcon className="w-4 h-4" /> */}
+//               </button>
+//               {showTooltip && (
+//                 <div className="absolute bottom-full left-0 mb-2 p-2 bg-[#FFFFFF] text-white text-sm rounded shadow-lg">
+//                   Автоматически отправляет сообщение владельцу квартиры через WhatsApp
+//                 </div>
+//               )}
+//             </div>
 //             <div className="mt-4">
 //               <h2 className="text-lg font-medium mb-2">Характеристики:</h2>
 //               <ul className="list-disc list-inside space-y-1">
@@ -570,6 +765,23 @@ export default ApartmentDetails;
 //         </section>
 //       </div>
 //       <Footer />
+//       {isDialogOpen && (
+//   <div className="fixed inset-0 flex items-center justify-center" style={{backgroundColor: 'rgba(222, 221, 221, 0.95)'}}>
+//     <div className="p-6 rounded-lg" style={{backgroundColor: '#ffffff', maxWidth: '500px'}}>
+//       <h2 className="text-xl font-bold mb-4" style={{color: '#333333'}}>Информация</h2>
+//       <p dangerouslySetInnerHTML={{ __html: dialogMessage }}></p>
+//       <button 
+//         onClick={() => setIsDialogOpen(false)}
+//         className="mt-4 px-4 py-2 rounded-lg"
+//         style={{backgroundColor: '#FF7024', color: '#ffffff', cursor: 'pointer'}}
+//         onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#CB5200'}
+//         onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#FF7024'}
+//       >
+//         Закрыть
+//       </button>
+//     </div>
+//   </div>
+//   )}
 //     </div>
 //   );
 // };
