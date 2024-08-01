@@ -67,7 +67,7 @@ const ApartmentDetails = ({ params: { id } }: { params: { id: number } }) => {
   };
 
   const checkUserRequirements = () => {
-    if(user?.phoneNumber && user?.phoneNumber.replace(/\D/g, '').length !== 11 && user?.name && user?.surname && user?.smallDescription) {
+    if(user?.phoneNumber && user?.phoneNumber.replace(/\D/g, '').length == 11 && user?.name && user?.surname && user?.smallDescription) {
       return true
     }
     return false; 
