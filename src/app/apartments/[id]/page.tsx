@@ -256,6 +256,7 @@ const ApartmentDetails = ({ params: { id } }: { params: { id: number } }) => {
           </div>
         </section>
         <section className="container mx-auto py-12">
+        <h1 className="text-2xl font-bold mb-4 ">Примерное местоположение:</h1>
           {coordinates ? (
             <YMaps>
               <Map
