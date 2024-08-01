@@ -226,9 +226,16 @@ const ApartmentDetails = ({ params: { id } }: { params: { id: number } }) => {
                 ))}
               </div>
               <p className="text-gray-600">{apartment.description}</p>
-              <Link href={apartment.link} passHref target="_blank" className="text-[#FF7024] hover:underline flex items-center gap-1">
+              <Link href={apartment.link} passHref target="_blank" className="">
+              <button 
+                onClick={handleAutocontact} 
+                className="bg-[#FF7024] hover:bg-green-600 text-[#FFFFFF] px-4 py-2 rounded-lg flex items-center gap-2"
+                onMouseEnter={() => setShowTooltip(true)}
+                onMouseLeave={() => setShowTooltip(false)}
+              >
                 <ExternalLinkIcon className="w-4 h-4" />
                 Страница с оригиналом
+                </button>
               </Link>
               <div className="relative">
               <button 
