@@ -228,7 +228,7 @@ const ApartmentDetails = ({ params: { id } }: { params: { id: number } }) => {
               <p className="text-gray-600">{apartment.description}</p>
               <Link href={apartment.link} passHref target="_blank" className="">
               <button 
-                className="bg-[#FF7024] text-[#FFFFFF] px-4 py-2 rounded-lg flex items-center gap-2 mx-auto w-[270px]"
+                className="bg-[#FF7024] text-[#FFFFFF] px-4 py-2 rounded-lg flex items-center gap-2 mx-auto w-full justify-center"
               >
                 <ExternalLinkIcon className="w-4 h-4" />
                 Страница с оригиналом
@@ -237,7 +237,7 @@ const ApartmentDetails = ({ params: { id } }: { params: { id: number } }) => {
               <div className="relative">
               <button 
                 onClick={handleAutocontact} 
-                className="bg-[#25D366] hover:bg-green-600 text-[#FFFFFF] px-4 py-2 rounded-lg flex items-center gap-2 mx-auto w-[270px]"
+                className="bg-[#25D366] hover:bg-green-600 text-[#FFFFFF] px-4 py-2 rounded-lg flex items-center gap-2 mx-auto w-full justify-center"
                 onMouseEnter={() => setShowTooltip(true)}
                 onMouseLeave={() => setShowTooltip(false)}
               >
